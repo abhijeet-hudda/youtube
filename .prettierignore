@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+
+# Coverage
+coverage/
+
+# Logs
+logs/
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Package manager lock files (optional)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Cache & temp
+.cache/
+.tmp/
+.temp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Minified files
+*.min.js
+*.min.css
+
+# Generated files
+*.snap
