@@ -15,4 +15,14 @@ app.use(express.urlencoded({extended:true,limit:"16kb"}));
 app.use(express.static("public"));
 app.use(cookieParser());
 
+
+// routes import 
+import userRouter from "./routes/user.route.js";
+
+//routes declaration
+//ab routes ko saparete kr diya h to middleware lana padega
+app.use("/api/v1/users", userRouter)
+
+//ab jo url h wo ese
+//http://localhost:8000/api/v1/users/register ese bnegi
 export {app}
