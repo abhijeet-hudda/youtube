@@ -173,6 +173,16 @@ const logoutUser = asyncHandler(async (req,res)=>{
 })
 
 const refreshAccesssToken = asyncHandler(async(req,res)=>{
+
+    /*
+    1.cookies refresh token nikalo
+    2.jwt verify 
+    3.decodetoken lo bcz decodetoken._id se user mil jaye 
+    4.refresh token to user refresh token se match kro 
+    5. generate new token 
+    6. send cookie
+    */
+
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
     if(!incomingRefreshToken){
