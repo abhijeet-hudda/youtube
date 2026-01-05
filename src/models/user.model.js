@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema(
 // yha call back me ()=>{} ye use nahi krte h bcz this ka access nahi hota h
 //next ek flag h jo aage pass karna hota h  
 userSchema.pre("save", async function (){
-    if(!this.isModified("password")) return ;
+    if(!this.isModified("password")) return 
     this.password = await bcrypt.hash(this.password,10);
 })
 //custom method add in mongoose schema
