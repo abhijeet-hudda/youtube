@@ -385,7 +385,7 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
             $lookup:{
                 from:"subscriptions",
                 localField:"_id",
-                foreignField:" subscriber",
+                foreignField:"subscriber",
                 as: "subscribedTo"
             }
         },
@@ -434,6 +434,62 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
     ))
 })
 
+const getWatchHistory = asyncHandler(async(req,res)=>{
+    const user = await User.aggregate([
+        {
+            $match:{
+                _id: new mongoose.Types.ObjectId(req.user._id)
+                //aggregate ka sara code sidha mongodb me jata h to req.user._id string me hoga isliye usko object id me convert karna padega 
+                //but aggregate ke alawa findById and findOne me mongoose khud convert kar deta h
+            }
+        },
+        {
+            $lookup:{
+                from:"videos", // kha se join krna h 
+                localField:"watchHistory", // kis me join karana h wo field
+                foreignField:"_id", //jha se join ho rha h wo field
+                as:"watchHistory",
+                //above lookup => watchHistory me video ka sara data aa jayega but owner khali hoga 
+                //owner ke liye subPipeline use krna padega 
+                pipeline:[
+                    {
+                        $lookup:{
+                            from:"users",
+                            localField:"owner",
+                            foreignField:"_id",
+                            as:"owner",
+                            pipeline:[
+                                {
+                                    $project:{
+                                        fullname: 1,
+                                        username: 1,
+                                        avatar: 1
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        $addFields:{
+                            owner:{
+                                $first: "$owner"
+                            }
+                        }
+                    }
+                ]
+                //after subpipeline owner ache se populate ho jayega
+            }
+        }
+    ])
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        user[0].watchHistory,
+        "watchHistory fetched successfully"
+    ))
+})
+
 export {
     userRegister,
     loginUser,
@@ -444,6 +500,7 @@ export {
     updateAccountDetails,
     updateUserAvatar,
     updateUsercoverImage,
-    getUserChannelProfile
+    getUserChannelProfile,
+    getWatchHistory
     
 }
