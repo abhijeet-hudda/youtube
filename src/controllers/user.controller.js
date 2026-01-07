@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/APIErrors.js"
 import {User} from "../models/user.model.js"
@@ -101,7 +102,7 @@ const loginUser = asyncHandler( async (req,res)=>{
     6. send cookie
     */
     const {email,password,username} = req.body
-    console.log(email)
+    //console.log(email)
 
     if(!username && !email){
         throw new ApiError(400, "username or password is required");
@@ -112,10 +113,10 @@ const loginUser = asyncHandler( async (req,res)=>{
 
     if(!user) throw new ApiError(404,"user does not exist");
     
-    console.log("password:",password);
+    //console.log("password:",password);
 
     const isPasswordValid = await user.isPasswordCorrect(password);
-    console.log(isPasswordValid);
+    //console.log(isPasswordValid);
 
     if(!isPasswordValid) throw new ApiError(400,"Invaild user credentials")
 
@@ -224,7 +225,7 @@ const changeCurrentPassword = asyncHandler(async (req,res)=>{
     const {oldPassword,newPassword} = req.body
 
     //check oldPassword correct -> user chahiye for compare => auth middleware req me req.user add karta h 
-    const user = await User.findById(user?._id);
+    const user = await User.findById(req.user?._id);
 
     const isPasswordCorrect = user.isPasswordCorrect(oldPassword);
     if(!isPasswordCorrect){
