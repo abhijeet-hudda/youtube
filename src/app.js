@@ -18,10 +18,12 @@ app.use(cookieParser());
 
 // routes import 
 import userRouter from "./routes/user.route.js";
+import videoRouter from "./routes/video.route.js";
 
 //routes declaration
 //ab routes ko saparete kr diya h to middleware lana padega
 app.use("/api/v1/users", userRouter)
+app.use("/api/v1/videos", videoRouter)
 
 //ab jo url h wo ese
 //http://localhost:8000/api/v1/users/register ese bnegi
