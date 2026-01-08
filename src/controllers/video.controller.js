@@ -92,7 +92,60 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
 })
 
+const publishAVideo = asyncHandler(async (req, res) => {
+    const { title, description} = req.body
+    // TODO: get video, upload to cloudinary, create video
+    /* steps
+    1. get videofile and thumbnail from req.files
+    2. upload both to cloudinary using uploadOnCloudinary function
+    3. validate if both uploaded successfully
+    4. validate title and description
+    5. create video in db
+    6. return success response
+    */
+    const videoLocalPath = req.files?.videofile[0]?.path
+    const thumbnailLocalPath = req.files?.thumbnail[0]?.path
+
+    if(!videoLocalPath||!thumbnailLocalPath){
+        throw new ApiError(400,"videoFile and thumbnail both are required")
+    }
+    const video = await uploadOnCloudinary(videoLocalPath);
+    const thumbnail = await uploadOnCloudinary(thumbnailLocalPath)
+
+    if(!video || !thumbnail){
+        throw new ApiError(500,"Error uploading to cloudinary")
+    }
+
+    if(!title){
+        throw new ApiError(400,"title is required")
+    }
+    if(!description) throw new ApiError(400,"description is required")
+    
+    const createdVideo = await Video.create({
+        videofile: video.url,
+        thumbnail: thumbnail.url,
+        duration: video.duration,
+        title,
+        description,
+        owner: req.user?._id
+    })
+    if(!createdVideo){
+        throw new ApiError(500,"Error to save video in db")
+    }
+    return res
+    .status(201)
+    .json(new ApiResponse(
+        201,
+        createdVideo,
+        "video published successfully"
+    ))
+
+
+})
+
+
 
 export {
-    getAllVideos
+    getAllVideos,
+    publishAVideo
 }
