@@ -251,9 +251,45 @@ const updateVideo = asyncHandler(async (req, res) => {
     ))
 
 })
+
+const togglePublishStatus = asyncHandler(async (req, res) => {
+    const { videoId } = req.params
+    if(!isValidObjectId(videoId)){
+        throw new ApiError(400,"Invaild videoId")
+    }
+    const video = await Video.findById(videoId)
+    if(!video){
+        throw new ApiError(404,"video not found")
+    }
+
+    if (video.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(403, "You are not authorized to update this video");
+    }
+    video.isPublished = !video.isPublished;
+    await video.save({ validateBeforeSave: false });
+
+    // const isPublished = video.isPublished
+    // const updatedvideo = await Video.findByIdAndUpdate(videoId,
+    //     {
+    //         isPublished: !isPublished
+    //     },
+    //     {
+    //         new: true
+    //     }
+    // )
+
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        video,
+        "PublishStatus toggled successefully"
+    ))
+})
 export {
     getAllVideos,
     publishAVideo,
     getVideoById,
-    updateVideo
+    updateVideo,
+    togglePublishStatus
 }
