@@ -52,7 +52,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
                 from: "users",
                 localField:"owner",
                 foreignField:"_id",
-                as:"ownerDetails",
+                as:"owner",
                 pipeline:[
                     {
                         $project:{
@@ -63,10 +63,10 @@ const getAllVideos = asyncHandler(async (req, res) => {
                 ]
             }
         },
-        {
+        {   //addFields use kiya bcz owner :[{}] ye na mil ke {} direct object mile 
             $addFields:{
                 owner:{
-                    $first: "$ownerDetails"
+                    $first: "$owner"
                 }
             }
         }
