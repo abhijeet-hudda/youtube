@@ -22,6 +22,7 @@ import videoRouter from "./routes/video.route.js";
 import tweetRouter from "./routes/tweet.route.js";
 import subscriptionRouter from "./routes/subscription.route.js"
 import playlistRouter from "./routes/playlist.route.js"
+import likeRouter from "./routes/like.route.js"
 
 //routes declaration
 //ab routes ko saparete kr diya h to middleware lana padega
@@ -30,6 +31,7 @@ app.use("/api/v1/videos", videoRouter)
 app.use("/api/v1/tweets", tweetRouter)
 app.use("/api/v1/subscriptions",subscriptionRouter)
 app.use("/api/v1/playlists",playlistRouter)
+app.use("/api/v1/likes",likeRouter);
 
 //ab jo url h wo ese
 //http://localhost:8000/api/v1/users/register ese bnegi
