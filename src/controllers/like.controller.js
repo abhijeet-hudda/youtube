@@ -100,111 +100,208 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
 // }
 // })
 
+// const toggleCommentLike = asyncHandler(async (req, res) => {
+//     const {commentId} = req.params
+//     //TODO: toggle like on comment
+//     if(!isValidObjectId(commentId)){
+//         throw new ApiError(400,"Invalid video id")
+//     }
+//     //method =>find by video and likedby(user)
+//     const isLike = await Like.findOne({
+//         comment: commentId,
+//         likedBy: req.user?._id
+//     });
+//     const comment = await Comment.findById(videoId);
+//     if(!comment){
+//         throw new ApiError(404, "video not found")
+//     }
+//     if(isLike){
+//         await isLike.deleteOne();
+//         comment.likes = Math.max(0, video.likes - 1);
+//         await comment.save();
+//         //method-2
+//     //     await Promise.all([
+//     //   Like.deleteOne({ _id: like._id }),
+//     //   Video.updateOne(
+//     //     { _id: videoId },
+//     //     { $inc: { likes: -1 } }
+//     //   ),
+//     // ]);
+//         return res
+//         .status(200)
+//         .json(new ApiResponse(
+//             200,
+//             {},
+//             "Like removed from this video"
+//         ))
+//     }
+//     const createLike = await Like.create({
+//         comment:commentId,
+//         likedBy:req.user?._id
+//     })
+//     comment.likes += 1;
+//     await comment.save()
+//     const updatedLike = await createLike.populate("likedBy","username avatar");
+
+//     return res
+//     .status(200)
+//     .json(new ApiResponse(
+//         200,
+//         {updatedLike},
+//         "successfully like the video "
+//     ))
+
+// })
+
 const toggleCommentLike = asyncHandler(async (req, res) => {
-    const {commentId} = req.params
-    //TODO: toggle like on comment
+  
+  //TODO: toggle like on comment
+    console.log(req.user._id)
+    const {commentId}= req.params;
+
     if(!isValidObjectId(commentId)){
-        throw new ApiError(400,"Invalid video id")
+      throw new ApiError(400, "invalid comment Id")
     }
-    //method =>find by video and likedby(user)
-    const isLike = await Like.findOne({
-        comment: commentId,
-        likedBy: req.user?._id
-    });
-    const comment = await Comment.findById(videoId);
+    console.log(commentId)
+    const comment = await Comment.findById(commentId)
     if(!comment){
-        throw new ApiError(404, "video not found")
+        throw new ApiError(404, "comment not found")
     }
-    if(isLike){
-        await isLike.deleteOne();
-        comment.likes = Math.max(0, video.likes - 1);
-        await comment.save();
-        //method-2
-    //     await Promise.all([
-    //   Like.deleteOne({ _id: like._id }),
-    //   Video.updateOne(
-    //     { _id: videoId },
-    //     { $inc: { likes: -1 } }
-    //   ),
-    // ]);
+    console.log(comment)
+    const existingLike= await Like.findOne({
+        comment:commentId,
+        likedBy:req.user._id
+    })
+    console.log(existingLike)
+
+    if(existingLike){
+        await existingLike.deleteOne()
+        comment.likes-=1;
+        await comment.save()
+
         return res
         .status(200)
-        .json(new ApiResponse(
-            200,
-            {},
-            "Like removed from this video"
-        ))
+        .json(new ApiResponse(200, {}, "successfully deleted the like on comment"))
     }
-    const createLike = await Like.create({
-        comment:commentId,
-        likedBy:req.user?._id
-    })
-    comment.likes += 1;
-    await comment.save()
-    const updatedLike = await createLike.populate("likedBy","username avatar");
+        const like = await Like.create({
+            comment:commentId,
+            likedBy:req.user._id
+        })
 
-    return res
-    .status(200)
-    .json(new ApiResponse(
-        200,
-        {updatedLike},
-        "successfully like the video "
-    ))
+        comment.likes+=1;
+        await comment.save()
+        const populatedLike= await like.populate("likedBy", "username avatar")
 
-})
+        return res
+        .status(200)
+        .json(new ApiResponse(200, populatedLike, "successfully liked the comment"))
+    
+
+});
+
+// const toggleTweetLike = asyncHandler(async (req, res) => {
+//     const {tweetId} = req.params
+//     //TODO: toggle like on tweet
+//     if(!isValidObjectId(tweetId)){
+//         throw new ApiError(400,"Invalid video id")
+//     }
+//     //method =>find by video and likedby(user)
+//     const isLike = await Like.findOne({
+//         tweet: tweetId,
+//         likedBy: req.user?._id
+//     });
+//     const tweet = await Tweet.findById(tweetId);
+//     if(!tweet){
+//         throw new ApiError(404, "video not found")
+//     }
+//     if(isLike){
+//         await isLike.deleteOne();
+//         tweet.likes = Math.max(0, tweet.likes - 1);
+//         await tweet.save();
+//         //method-2
+//     //     await Promise.all([
+//     //   Like.deleteOne({ _id: like._id }),
+//     //   Video.updateOne(
+//     //     { _id: videoId },
+//     //     { $inc: { likes: -1 } }
+//     //   ),
+//     // ]);
+//         return res
+//         .status(200)
+//         .json(new ApiResponse(
+//             200,
+//             {},
+//             "Like removed from this video"
+//         ))
+//     }
+//     const createLike = await Like.create({
+//         tweet:tweetId,
+//         likedBy:req.user?._id
+//     })
+//     tweet.likes += 1;
+//     awaittweeto.save()
+//     const updatedLike = await createLike.populate("likedBy","username avatar");
+
+//     return res
+//     .status(200)
+//     .json(new ApiResponse(
+//         200,
+//         {updatedLike},
+//         "successfully like the video "
+//     ))
+// }
+// )
 
 const toggleTweetLike = asyncHandler(async (req, res) => {
-    const {tweetId} = req.params
-    //TODO: toggle like on tweet
-    if(!isValidObjectId(tweetId)){
-        throw new ApiError(400,"Invalid video id")
+  
+  //TODO: toggle like on tweet
+
+  const { tweetId } = req.params;
+
+  if(!isValidObjectId(tweetId)){
+      throw new ApiError(400, "invalid tweet Id")
     }
-    //method =>find by video and likedby(user)
-    const isLike = await Like.findOne({
-        tweet: tweetId,
-        likedBy: req.user?._id
-    });
-    const tweet = await Tweet.findById(tweetId);
-    if(!tweet){
-        throw new ApiError(404, "video not found")
-    }
-    if(isLike){
-        await isLike.deleteOne();
-        tweet.likes = Math.max(0, tweet.likes - 1);
-        await tweet.save();
-        //method-2
-    //     await Promise.all([
-    //   Like.deleteOne({ _id: like._id }),
-    //   Video.updateOne(
-    //     { _id: videoId },
-    //     { $inc: { likes: -1 } }
-    //   ),
-    // ]);
-        return res
-        .status(200)
-        .json(new ApiResponse(
-            200,
-            {},
-            "Like removed from this video"
-        ))
-    }
-    const createLike = await Like.create({
-        tweet:tweetId,
-        likedBy:req.user?._id
-    })
-    tweet.likes += 1;
-    awaittweeto.save()
-    const updatedLike = await createLike.populate("likedBy","username avatar");
+  
+  const tweet = await Tweet.findById(tweetId)
+
+  if(!tweet){
+    throw new ApiError(404, "tweet not found")
+  }
+
+  const existingLike= await Like.findOne({
+    tweet:tweetId,
+    likedBy:req.user._id
+  })
+
+  if(existingLike){
+    await existingLike.deleteOne()
+    tweet.likes-=1;
+    await tweet.save()
 
     return res
     .status(200)
-    .json(new ApiResponse(
-        200,
-        {updatedLike},
-        "successfully like the video "
-    ))
-}
-)
+    .json(new ApiResponse(200, {}, "successfully removed like from tweet"))
+  }
+
+  else{
+    const like = await Like.create({
+        tweet:tweetId,
+        likedBy:req.user._id
+    })
+
+
+    tweet.likes+=1;
+    await tweet.save()
+
+    const populatedLike= await like.populate("likedBy", "username avatar");
+
+    return res
+    .status(201)
+    .json(new ApiResponse(201, {populatedLike}, "successfully liked the tweet"))
+  }
+
+  
+});
 
 const getLikedVideos = asyncHandler(async (req, res) => {
   //TODO: get all liked videos
