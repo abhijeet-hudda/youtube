@@ -36,7 +36,7 @@ const userRegister = asyncHandler(async (req, res)=>{
         9.return response(res)
     */
    
-    const {fullname, email, username, password} =req.body
+    const {fullname, email, username, password} = req.body
     //console.log("email: ", email);
     // console.log("req body : ",req.body)
     //data handle ho gya is ke baad file handle karni h wo multer se hogi route me
@@ -212,7 +212,7 @@ const refreshAccesssToken = asyncHandler(async(req,res)=>{
         return res
         .status(200)
         .cookie("accessToken", accessToken,options)
-        .cookie("refreshToken",newRefreshToken,option)
+        .cookie("refreshToken",newRefreshToken,options)
         .json(new ApiResponse(
             200,
             {accessToken,refreshToken:newRefreshToken},
