@@ -279,7 +279,7 @@ const updatePlaylist = asyncHandler(async (req, res) => {
 //     const updatedPlaylist = await Playlist.findOneAndUpdate(
 //     {
 //       _id: playlistId,
-//       owner: req.user._id,   // 🔒 authorization
+//       owner: req.user._id,   //  authorization
 //     },
 //     {
 //       ...(name !== undefined && { name }),

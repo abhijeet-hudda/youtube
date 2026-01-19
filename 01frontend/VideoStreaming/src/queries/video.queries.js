@@ -16,7 +16,8 @@ export const useVideos = (filters) => {
         queryKey: videoKeys.list(filters),
         queryFn: () => videoApi.getAllVideos(filters),
         placeholderData: (previousData) => previousData, // Newer version of keepPreviousData
-        staleTime: 5 * 60 * 1000, 
+        staleTime: 5 * 60 * 1000,
+        //staleTime is the amount of time React Query considers fetched data “fresh.”
     });
 };
 

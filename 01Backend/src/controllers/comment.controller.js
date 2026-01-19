@@ -4,6 +4,7 @@ import {ApiError} from "../utils/APIErrors.js"
 import {ApiResponse} from "../utils/APIResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import { Video } from "../models/video.model.js"
+import { Like } from "../models/like.model.js"
 
 const getVideoComments = asyncHandler(async (req, res) => {
     //TODO: get all comments for a video
