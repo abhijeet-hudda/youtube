@@ -80,7 +80,7 @@ async function refreshAccessToken(){
   const response = await api.post("/refresh-token");
   return response.data;
 };
-export {
+export default {
     createAccount,
     login,
     logout,
