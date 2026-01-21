@@ -1,94 +1,84 @@
-import Container from "../container/Container";
+import React from "react";
 import { NavLink } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({ isOpen }) {
+  // Common styling for links
+  const baseLinkClass =
+    "flex items-center gap-4 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors";
+  
+  // Compact mode styling (center icons)
+  const compactLinkClass = 
+    "flex flex-col items-center justify-center gap-1 px-1 py-4 hover:bg-gray-100 rounded-lg";
+
   return (
-    <aside className="fixed top-14 left-0 w-56 h-[calc(100vh-56px)] bg-white border-r">
-      <Container>
-        <div className="flex items-center gap-3 py-4">
-          <button className="text-xl">☰</button>
-          <span className="text-lg font-bold text-red-600">YouTube</span>
-        </div>
+    <aside
+      className={`fixed top-14 left-0 h-[calc(100vh-56px)] bg-white overflow-y-auto pb-4 transition-all duration-200 border-r ${
+        isOpen ? "w-64 px-3" : "w-20 px-1"
+      }`}
+    >
+      <nav className="flex flex-col gap-1 py-3">
+        
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `${isOpen ? baseLinkClass : compactLinkClass} ${isActive ? "bg-gray-100 font-bold" : ""}`
+          }
+        >
+          <span className="text-xl">🏠</span>
+          <span className={`text-sm ${!isOpen && "text-[10px]"}`}>Home</span>
+        </NavLink>
 
-        <hr />
-        <nav className="flex flex-col gap-1 py-2">
-          <NavLink
-            to="/" // check this part 
-            className={({ isActive }) =>
-              `px-4 py-2 rounded ${
-                isActive ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"
-              }`
-            }
-          >
-             Home
-          </NavLink>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `${isOpen ? baseLinkClass : compactLinkClass} ${isActive ? "bg-gray-100 font-bold" : ""}`
+          }
+        >
+          <span className="text-xl">⚡</span>
+          <span className={`text-sm ${!isOpen && "text-[10px]"}`}>Shorts</span>
+        </NavLink>
 
-          <NavLink
-            to="/subscriptions" //check this part 
-            className={({ isActive }) =>
-              `px-4 py-2 rounded ${
-                isActive ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"
-              }`
-            }
-          >
-            Subscriptions
-          </NavLink>
-        </nav>
+        <NavLink
+          to="/subscriptions"
+          className={({ isActive }) =>
+            `${isOpen ? baseLinkClass : compactLinkClass} ${isActive ? "bg-gray-100 font-bold" : ""}`
+          }
+        >
+          <span className="text-xl">📺</span>
+          <span className={`text-sm ${!isOpen && "text-[10px]"}`}>Subs</span>
+        </NavLink>
 
-        <hr />
+        <NavLink
+          to="/history"
+          className={({ isActive }) =>
+            `${isOpen ? baseLinkClass : compactLinkClass} ${isActive ? "bg-gray-100 font-bold" : ""}`
+          }
+        >
+          <span className="text-xl">📂</span>
+          <span className={`text-sm ${!isOpen && "text-[10px]"}`}>You</span>
+        </NavLink>
 
-        <div className="py-3">
-          <p className="px-4 text-sm font-semibold text-gray-600 mb-2">
-            SUBSCRIPTIONS
-          </p>
+      </nav>
 
-          <ul className="space-y-2">
-            <li className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded cursor-pointer">
-              <img
-                src="https://i.pravatar.cc/32?img=1"
-                alt="channel"
-                className="w-6 h-6 rounded-full"
-              />
-              <span className="text-sm">Code With Alex</span>
-            </li>
-
-            <li className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded cursor-pointer">
-              <img
-                src="https://i.pravatar.cc/32?img=2"
-                alt="channel"
-                className="w-6 h-6 rounded-full"
-              />
-              <span className="text-sm">JS Mastery</span>
-            </li>
-          </ul>
-        </div>
-
-        <hr />
-
-        <div className="flex flex-col gap-1 py-2">
-          <NavLink
-            to="/history" //check this part
-            className={({ isActive }) =>
-              `px-4 py-2 rounded ${
-                isActive ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"
-              }`
-            }
-          >
-             History
-          </NavLink>
-
-          <NavLink
-            to="/playlists" // check this part 
-            className={({ isActive }) =>
-              `px-4 py-2 rounded ${
-                isActive ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"
-              }`
-            }
-          >
-            Playlists
-          </NavLink>
-        </div>
-      </Container>
+      {/* Show detailed lists only when expanded */}
+      {isOpen && (
+        <>
+          <hr className="my-2 border-gray-200" />
+          
+          <div className="py-2">
+            <h3 className="px-3 text-base font-semibold mb-2">Subscriptions</h3>
+            {/* Mock Data */}
+            <div className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+              <img src="https://i.pravatar.cc/32?img=5" className="w-6 h-6 rounded-full" alt="ch" />
+              <span className="text-sm truncate">Chai aur Code</span>
+            </div>
+            <div className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+              <img src="https://i.pravatar.cc/32?img=8" className="w-6 h-6 rounded-full" alt="ch" />
+              <span className="text-sm truncate">Hitesh Choudhary</span>
+            </div>
+          </div>
+        </>
+      )}
     </aside>
   );
 }

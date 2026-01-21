@@ -15,6 +15,7 @@ export default function Protected({ children, authentication = true }) {
         if (!authentication && isAuthenticated) {
         navigate("/", { replace: true });
         }
+        //
     }, [authentication, isAuthenticated, isLoading, navigate]);
     if (isLoading) {
         return (

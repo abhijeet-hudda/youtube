@@ -4,7 +4,7 @@ import {
   loginUser,
   logoutUser,
   fetchCurrentUser,
-} from "./authThunks";
+} from "./auth.Thunks";
 
 const initialState = {
   user: null,

@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { Button, Input } from "./index";
+import {useForm} from "react-hook-form"
+import Button from "./Button"
+import Input from "./Input"
 import { registerUser } from "../store/features/authFeatures/auth.Thunks";
 import { clearAuthError } from "../store/features/authFeatures/auth.slice";
 
@@ -38,14 +39,14 @@ function Signup() {
 
   return (
     <div className="flex items-center justify-center w-full min-h-screen py-8">
-      <div className="mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10 shadow-sm">
+      <div className="mx-auto w-full max-w-lg bg-gray-300 rounded-xl p-10 border border-black/10 shadow-sm">
         <div className="mb-2 flex justify-center">
           <span className="inline-block w-full max-w-100px">
             Logo
           </span>
         </div>
         
-        <h2 className="text-center text-2xl font-bold leading-tight">
+        <h2 className="text-center text-2xl font-bold leading-tight text-black/60">
           Sign up to create account
         </h2>
         
@@ -84,6 +85,22 @@ function Signup() {
             </div>
             <div>
               <Input
+                label="Username: "
+                type="username"
+                placeholder="Enter your username"
+                {...register("username", {
+                  required: "Username is required",
+                  minLength: {
+                    value: 6,
+                    message: "Username must be at least 6 characters",
+                  },
+                })}
+                error={errors.username?.message}
+              />
+              {errors.username && <p className="text-red-600 text-sm mt-1">{errors.username.message}</p>}
+            </div>
+            <div>
+              <Input
                 label="Email: "
                 placeholder="Enter your email"
                 type="email"
@@ -115,6 +132,39 @@ function Signup() {
               />
               {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>}
             </div>
+            <div>
+              <Input
+                label="Avatar: "
+                type="file"
+                placeholder="Enter your avatar"
+                {...register("avatar", {
+                  required: "Avatar is required",
+                  minLength: {
+                    value: 6,
+                    message: "Avatar must be at least 6 characters",
+                  },
+                })}
+                error={errors.avatar?.message}
+              />
+              {errors.avatar && <p className="text-red-600 text-sm mt-1">{errors.avatar.message}</p>}
+            </div>
+            <div>
+              <Input
+                label="CoverImage: "
+                type="file"
+                placeholder="Enter your cover image"
+                {...register("coverImage", {
+                  required: "CoverImage is required",
+                  minLength: {
+                    value: 6,
+                    message: "CoverImage must be at least 6 characters",
+                  },
+                })}
+                error={errors.coverImage?.message}
+              />
+              {errors.coverImage && <p className="text-red-600 text-sm mt-1">{errors.coverImage.message}</p>}
+            </div>
+            
             <Button
               type="submit"
               className="w-full"

@@ -1,12 +1,62 @@
-import Header from "./componets/Header/Header"
+import {RouterProvider,createBrowserRouter} from "react-router-dom"
+import {Provider} from "react-redux"
+import store from "./store/store"
+import Layout from "./Layout"
+import Home from "./pages/Home.page"
+import Login from "./componets/Login"
+import Signup from "./componets/Signup"
+import AuthLayout from "./componets/AuthLayout"
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element:<Layout/>,
+      children:[
+        {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: (
+          <AuthLayout authentication={false}>
+            <Login />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <AuthLayout authentication={false}>
+            <Signup />
+          </AuthLayout>
+        ),
+      }
+      ]
+    },
+  ])
+  
 
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // Data is fresh for 5 minutes (optional config)
+      refetchOnWindowFocus: false, // Optional: prevents refetching when clicking tabs
+    },
+  },
+})
   return (
-    <div className="flex justify-center py-8">
-      <Header/>
-    </div>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </Provider>
   )
+
 }
 
 export default App
