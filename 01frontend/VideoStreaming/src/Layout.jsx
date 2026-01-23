@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./componets/Header/Header";
 import Sidebar from "./componets/Header/Sidebar";
 
+
 function Layout() {
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
+
 
   return (
     <div className="flex flex-col h-screen">

@@ -25,7 +25,6 @@ export const loginUser = createAsyncThunk(
       // console.log("frontend error",error);
       // console.log("data error", error.response?.data)
       return rejectWithValue(
-        
         error.response?.data?.message || "Login failed"
       );
     }

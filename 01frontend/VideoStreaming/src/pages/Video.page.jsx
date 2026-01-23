@@ -2,15 +2,29 @@ import { isPending } from "@reduxjs/toolkit";
 import { useVideoDetail } from "../queries/video.queries";
 import { useParams } from "react-router-dom";
 import Container from "../componets/container/Container";
+import { useSelector, useDispatch } from "react-redux";
+import { userChannel } from "../store/features/channelFeatures/channel.Thunks";
+import { useEffect } from "react";
 
 function Video() {
   //videoId => getVideoByID => display video
   const { videoId } = useParams();
   //console.log("videoId", videoId);
   const { data, error, isLoading } = useVideoDetail(videoId);
+  const username = data?.owner?.username;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (username) {
+      dispatch(userChannel(username));
+    }
+  }, [username, dispatch]);
+  let subscriberCount = 0;
+
+  const { channelProfile } = useSelector((state) => state.channel);
+  //console.log("channelProfile", channelProfile);
 
   //console.log("data",data);
-  
+
   /*
     data ke ander 
     "data": {
@@ -91,12 +105,12 @@ function Video() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-800 text-sm  md:text-base">
-                  {/*usename dalna h*/}
+              <div className="text-black">
+                <h3 className="font-semibold text-sm  md:text-base">
+                  {/*usename dalna h*/}{data.owner.username}
                 </h3>
-                <p className="text-xs text-gray-500">
-                  {/*yha subscriber dalne h */}
+                <p className="text-xs">
+                  Subscribers {/*yha subscriber dalne h */}{channelProfile?.channelSubscriberCount || subscriberCount}{" "}
                 </p>
               </div>
               <button className="ml-4 px-5 py-2 bg-black text-white rounded-full font-medium text-sm hover:bg-gray-800 transition-all">

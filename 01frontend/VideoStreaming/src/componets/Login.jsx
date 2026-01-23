@@ -13,7 +13,7 @@ function Login() {
   const { register, handleSubmit, formState:{ errors } } = useForm();
   const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
 
-   useEffect(() => {
+  useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
