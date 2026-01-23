@@ -2,19 +2,14 @@ import api from "./axios.instance"
 
 
 async function createAccount(formData){
-    const response = await api.post("/users/register",formData,{
-        headers: {
-        'Content-Type': 'multipart/form-data'
-        }}
+    console.log("this is formData",formData);
+    const response = await api.post("/users/register",formData
     )
-    //console.log(response)
+    console.log(response)
     return response.data
 }
 async function login(formData){
-    const response = await api.post("/users/login",formData,{
-        headers: {
-        'Content-Type': 'multipart/form-data'
-        }}
+    const response = await api.post("/users/login",formData
     );
     //console.log(response)
     return response.data

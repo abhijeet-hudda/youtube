@@ -1,11 +1,20 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useSubscribedChannels } from "../../queries/subscription.queries";
+import {useSelector} from 'react-redux';
+import SubscriptionCard from "./SubscriptionCard";
 
 function Sidebar({ isOpen }) {
+
+  const user = useSelector((state) => state.auth);
+  const subscriberId = user?.user?.user?._id;
+  //console.log("user", user);
+  //console.log("subscriberId", subscriberId);
+  const { data} = useSubscribedChannels(subscriberId);
+  //console.log("subscribed channels data", data.data);
   // Common styling for links
   const baseLinkClass =
     "flex items-center gap-4 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors";
-  
   // Compact mode styling (center icons)
   const compactLinkClass = 
     "flex flex-col items-center justify-center gap-1 px-1 py-4 hover:bg-gray-100 rounded-lg";
@@ -67,15 +76,13 @@ function Sidebar({ isOpen }) {
           
           <div className="py-2">
             <h3 className="px-3 text-base font-semibold mb-2">Subscriptions</h3>
-            {/* Mock Data */}
-            <div className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
-              <img src="https://i.pravatar.cc/32?img=5" className="w-6 h-6 rounded-full" alt="ch" />
-              <span className="text-sm truncate">Chai aur Code</span>
-            </div>
-            <div className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer">
-              <img src="https://i.pravatar.cc/32?img=8" className="w-6 h-6 rounded-full" alt="ch" />
-              <span className="text-sm truncate">Hitesh Choudhary</span>
-            </div>
+            {/*Data*/}
+            {data?.data?.map((subs) =>(
+              <div key={subs?._id} className="w-full">
+                <SubscriptionCard subsObject={subs} />
+              </div>
+            ))}
+           
           </div>
         </>
       )}

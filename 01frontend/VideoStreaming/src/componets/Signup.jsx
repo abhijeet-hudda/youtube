@@ -28,13 +28,28 @@ function Signup() {
     }
 
     // Cleanup: Clear any auth errors when component unmounts
-    return () => {
-      dispatch(clearAuthError());
-    };
+    // return () => {
+    //   dispatch(clearAuthError());
+    // };
   }, [isAuthenticated, navigate, dispatch]);
 
   const onSignupSubmit = (data) => {
-    dispatch(registerUser(data));
+    const formData = new FormData();
+
+  formData.append("fullname", data.fullname);
+  formData.append("username", data.username);
+  formData.append("email", data.email);
+  formData.append("password", data.password);
+
+  // IMPORTANT: FileList → File
+  if (data.avatar && data.avatar[0]) {
+    formData.append("avatar", data.avatar[0]);
+  }
+
+  if (data.coverImage && data.coverImage[0]) {
+    formData.append("coverImage", data.coverImage[0]);
+  }
+    dispatch(registerUser(formData));
   };
 
   return (
@@ -72,7 +87,7 @@ function Signup() {
               <Input
                 label="Full Name: "
                 placeholder="Enter your full name"
-                {...register("name", {
+                {...register("fullname", {
                   required: "Full name is required",
                   minLength: {
                     value: 2,

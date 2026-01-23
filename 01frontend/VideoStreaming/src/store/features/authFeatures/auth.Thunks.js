@@ -22,7 +22,10 @@ export const loginUser = createAsyncThunk(
     try {
       return await authAPI.login(formData);
     } catch (error) {
+      // console.log("frontend error",error);
+      // console.log("data error", error.response?.data)
       return rejectWithValue(
+        
         error.response?.data?.message || "Login failed"
       );
     }

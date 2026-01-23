@@ -17,7 +17,7 @@ function Layout() {
       <div className="flex flex-1 pt-14">
         <Sidebar isOpen={isSidebarOpen} />
         <main
-          className={`flex-1 bg-gray-50 overflow-y-auto transition-all duration-200 ${
+          className={`flex-1 bg-gray-100 overflow-y-auto transition-all duration-200 ${
             isSidebarOpen ? "ml-64" : "ml-20"
           }`}
         >

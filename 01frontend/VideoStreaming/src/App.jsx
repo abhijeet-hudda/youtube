@@ -7,6 +7,7 @@ import Login from "./componets/Login"
 import Signup from "./componets/Signup"
 import AuthLayout from "./componets/AuthLayout"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import  Video from "./pages/Video.page"
 
 
 function App() {
@@ -16,25 +17,33 @@ function App() {
       element:<Layout/>,
       children:[
         {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/login",
-        element: (
-          <AuthLayout authentication={false}>
-            <Login />
-          </AuthLayout>
-        ),
-      },
-      {
-        path: "/signup",
-        element: (
-          <AuthLayout authentication={false}>
-            <Signup />
-          </AuthLayout>
-        ),
-      }
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/login",
+          element: (
+            <AuthLayout authentication={false}>
+              <Login />
+            </AuthLayout>
+          ),
+        },
+        {
+          path: "/signup",
+          element: (
+            <AuthLayout authentication={false}>
+              <Signup />
+            </AuthLayout>
+          ),
+        },
+        {
+          path:"watch/:videoId",
+          element:(
+            <AuthLayout authentication={true}>
+              <Video />
+            </AuthLayout>
+          )
+        }
       ]
     },
   ])

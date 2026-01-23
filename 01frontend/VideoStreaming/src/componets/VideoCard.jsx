@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
+import { useSelector } from "react-redux";
 
 function VideoCard({ videoObject }) {
   const {
@@ -12,52 +13,56 @@ function VideoCard({ videoObject }) {
     views,
     _id,
   } = videoObject;
+  const { isAuthenticated} = useSelector((state)=>(state.auth))
 
-  return (
-    <Link to={`/watch/${_id}`} className="group">
-      <div className="w-full cursor-pointer">
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-200">
-          <img
-            src={thumbnail}
-            alt={title}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+   if(isAuthenticated){
+    return (
+      <Link to={`/watch/${_id}`} className="group">
+        <div className="w-full hover:bg-gray-300 rounded-xl p2">
+          <div className="w-full h-full cursor-pointer">
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-200">
+            <img
+              src={thumbnail}
+              alt={title}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-300 "
+            />
 
-          {/* DURATION */}
-          <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-0.5 text-xs font-medium text-white">
-            {duration}
-          </span>
-        </div>
-        <div className="mt-3 flex gap-3">
-          
-          <img
-            src={owner?.avatar}
-            alt={owner?.username}
-            className="h-9 w-9 rounded-full object-cover"
-          />
+            {/* DURATION */}
+            <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-0.5 text-xs font-medium text-white">
+              {duration}
+            </span>
+          </div>
+          <div className="mt-3 flex gap-3">
+            
+            <img
+              src={owner?.avatar}
+              alt={owner?.username}
+              className="h-9 w-9 rounded-full object-cover"
+            />
 
-          
-          <div className="flex-1">
-            <h3 className="line-clamp-2 text-sm font-semibold text-gray-900">
-              {title}{description}
-            </h3>
+            
+            <div className="flex-1">
+              <h3 className="line-clamp-2 text-sm font-semibold text-gray-900">
+                {title}{description}
+              </h3>
 
-            <p className="mt-1 text-xs text-gray-600">
-              {owner?.username}
-            </p>
+              <p className="mt-1 text-xs text-gray-600">
+                {owner?.username}
+              </p>
 
-            <p className="mt-1 text-xs text-gray-600">
-              {views.toLocaleString()} views •{" "}
-              {formatDistanceToNow(new Date(createdAt), {
-                addSuffix: true,
-              })}
-            </p>
+              <p className="mt-1 text-xs text-gray-600">
+                {views.toLocaleString()} views •{" "}
+                {formatDistanceToNow(new Date(createdAt), {
+                  addSuffix: true,
+                })}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
-  );
+        </div>
+      </Link>
+    );}
 }
 
 export default VideoCard;

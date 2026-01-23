@@ -18,9 +18,9 @@ function Login() {
       navigate("/");
     }
 
-    return () => {
-      dispatch(clearAuthError());
-    };
+    // return () => {
+    //   dispatch(clearAuthError());
+    // };
   }, [isAuthenticated, navigate, dispatch]);
 
   const login = (data) => {

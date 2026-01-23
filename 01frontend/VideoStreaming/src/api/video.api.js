@@ -18,7 +18,7 @@ async function getAllVideos({
       userId,
     },
   });
-
+  //console.log("video",response.data.data.docs)
   return response.data;
 }
 
