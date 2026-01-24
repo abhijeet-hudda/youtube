@@ -1,8 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { useSelector } from "react-redux";
+import { use } from "react";
+
+
+function formatDuration(seconds) {
+    if(!seconds) return "00:00";
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+}
 
 function VideoCard({ videoObject }) {
+  const navigate = useNavigate();
   const {
     thumbnail,
     duration,
@@ -14,6 +24,7 @@ function VideoCard({ videoObject }) {
     _id,
   } = videoObject;
   const { isAuthenticated} = useSelector((state)=>(state.auth))
+  
 
    if(isAuthenticated){
     return (
@@ -30,16 +41,21 @@ function VideoCard({ videoObject }) {
 
             {/* DURATION */}
             <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-0.5 text-xs font-medium text-white">
-              {duration}
+              {formatDuration(duration)}
             </span>
           </div>
           <div className="mt-3 flex gap-3">
             
-            <img
-              src={owner?.avatar}
-              alt={owner?.username}
-              className="h-9 w-9 rounded-full object-cover"
-            />
+              <img
+                src={owner?.avatar}
+                alt={owner?.username}
+                className="h-9 w-9 rounded-full object-cover"
+                onClick={(e) => {
+                  e.stopPropagation();      
+                  e.preventDefault();     
+                  navigate(`/${owner?.username}`);
+                }}
+              />
 
             
             <div className="flex-1">

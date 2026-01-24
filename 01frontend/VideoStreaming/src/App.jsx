@@ -8,6 +8,7 @@ import Signup from "./componets/Signup"
 import AuthLayout from "./componets/AuthLayout"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import  Video from "./pages/Video.page"
+import UserProfilePage from "./pages/UserProfile.page"
 
 
 function App() {
@@ -41,6 +42,14 @@ function App() {
           element:(
             <AuthLayout authentication={true}>
               <Video />
+            </AuthLayout>
+          )
+        },
+        {
+          path:"/:username",
+          element:(
+            <AuthLayout authentication={true}>
+              <UserProfilePage />
             </AuthLayout>
           )
         }

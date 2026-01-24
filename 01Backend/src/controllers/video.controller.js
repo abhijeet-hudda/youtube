@@ -146,6 +146,11 @@ const getVideoById = asyncHandler(async (req, res) => {
   // if (!video) {
   //   throw new ApiError(404, "Video not found");
   // }
+  await Video.findByIdAndUpdate(
+    videoId,
+    { $inc: { views: 1 } },
+    { new: true }
+  );
   const video = await Video.aggregate([
     {
       $match: { _id: new mongoose.Types.ObjectId(videoId) }
@@ -196,6 +201,7 @@ const getVideoById = asyncHandler(async (req, res) => {
   if (!video.length) {
     throw new ApiError(404, "Video not found");
   }
+  
   // const userId = video.owner;
   // const user = await User.findById(userId);
   // console.log("user",user);

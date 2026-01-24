@@ -1,16 +1,19 @@
 
 import { useVideoDetail } from "../queries/video.queries";
-import { useParams } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import Container from "../componets/container/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { userChannel } from "../store/features/channelFeatures/channel.Thunks";
-import { useEffect,useState } from "react";
+import { useEffect,useRef } from "react";
 import { useToggleVideoLike } from "../queries/like.queries";
 import {useToggleSubscription} from '../queries/subscription.queries'
+import { useNavigate } from "react-router-dom";
+
 
 function Video() {
   //videoId => getVideoByID => display video
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { videoId } = useParams();
   //console.log("videoId", videoId);
   const { data, error, isLoading } = useVideoDetail(videoId);
@@ -70,6 +73,7 @@ function Video() {
       day: "numeric",
     });
   };
+  
   if (isLoading) {
     return (
       <div className="w-full py-20 flex justify-center items-center">
@@ -112,11 +116,17 @@ function Video() {
             <div className="flex items-center gap-3 ">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full  overflow-hidden bg-gray-300 shrink-0">
                 {/*yha image dalni h owner ki*/}
-                <img
-                  src={data.owner.avatar || "https://i.pravatar.cc/40"}
-                  alt="owner"
-                  className="w-full h-full object-cover"
-                />
+                
+                  <img
+                    src={data.owner.avatar || "https://i.pravatar.cc/40"}
+                    alt="owner"
+                    className="w-full h-full object-cover"
+                    onClick={(e) => {
+                      e.stopPropagation();      
+                      e.preventDefault();     
+                      navigate(`/${data?.owner?.username}`);
+                    }}
+                  />
               </div>
               <div className="text-black">
                 <h3 className="font-semibold text-sm  md:text-base">
