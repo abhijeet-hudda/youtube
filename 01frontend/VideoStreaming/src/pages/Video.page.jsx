@@ -1,26 +1,39 @@
-import { isPending } from "@reduxjs/toolkit";
+
 import { useVideoDetail } from "../queries/video.queries";
 import { useParams } from "react-router-dom";
 import Container from "../componets/container/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { userChannel } from "../store/features/channelFeatures/channel.Thunks";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
+import { useToggleVideoLike } from "../queries/like.queries";
+import {useToggleSubscription} from '../queries/subscription.queries'
 
 function Video() {
   //videoId => getVideoByID => display video
+  const dispatch = useDispatch();
   const { videoId } = useParams();
   //console.log("videoId", videoId);
   const { data, error, isLoading } = useVideoDetail(videoId);
   const username = data?.owner?.username;
-  const dispatch = useDispatch();
+  //for like updation 
+  const { mutate: toggleLike, } = useToggleVideoLike();
+  const handleLike = () => {
+    toggleLike(videoId);
+  };
+  const { channelProfile } = useSelector((state) => state.channel); 
   useEffect(() => {
     if (username) {
       dispatch(userChannel(username));
     }
-  }, [username, dispatch]);
-  let subscriberCount = 0;
+  }, [username, dispatch]); 
+  const { mutate: toggleSubscription, isPending: subLoading } =
+    useToggleSubscription(username);
 
-  const { channelProfile } = useSelector((state) => state.channel);
+  const handleSubscription = () => {
+    if (!subLoading && channelProfile?._id) {
+      toggleSubscription(channelProfile._id);
+    }
+  };
   //console.log("channelProfile", channelProfile);
 
   //console.log("data",data);
@@ -110,19 +123,19 @@ function Video() {
                   {/*usename dalna h*/}{data.owner.username}
                 </h3>
                 <p className="text-xs">
-                  Subscribers {/*yha subscriber dalne h */}{channelProfile?.channelSubscriberCount || subscriberCount}{" "}
+                  Subscribers {/*yha subscriber dalne h */}{channelProfile?.channelSubscriberCount || 0}{" "}
                 </p>
               </div>
-              <button className="ml-4 px-5 py-2 bg-black text-white rounded-full font-medium text-sm hover:bg-gray-800 transition-all">
-                Subscribe
+              <button onClick={handleSubscription}  disabled={subLoading} className="ml-4 px-5 py-2 bg-black text-white rounded-full font-medium text-sm hover:bg-gray-800 transition-all">
+               {channelProfile?.isSubscribed ? "Unsubscribe" : "Subscribe"}
               </button>
             </div>
             {/*like share button */}
             <div className="flex items-center gap-2">
               <div className="flex items-center bg-gray-300 rounded-full overflow-hidden">
-                <button className="px-4 py-2 hover:bg-gray-400 flex items-center gap-2 border-r border-gray-300 transition-colors">
+                <button onClick={handleLike} className="px-4 py-2 hover:bg-gray-400 flex items-center gap-2 border-r border-gray-300 transition-colors">
                   <span>👍</span>{" "}
-                  <span className="text-sm font-medium">Like</span>
+                  <span className="text-sm font-medium">Like {data.likeCount}</span>
                 </button>
                 <button className="px-4 py-2 hover:bg-gray-400 transition-colors">
                   👎

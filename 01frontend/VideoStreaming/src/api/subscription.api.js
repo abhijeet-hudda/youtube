@@ -3,6 +3,7 @@ import api from "./axios.instance"
 
 async function toggleSubscription(channelId){
     const response = await api.patch(`/subscriptions/${channelId}/toggle-subscription`)
+    //console.log("subscrition response", response.data)
     return response.data;
 }
 async function getUserChannelSubscribers(channelId){

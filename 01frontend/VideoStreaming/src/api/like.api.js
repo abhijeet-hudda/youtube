@@ -2,6 +2,7 @@ import api from "./axios.instance";
 
 async function toggleVideoLike(videoId){
     const response = await api.post(`/likes/toggle-videolike/${videoId}/like`);
+    //console.log("video like response", response)
     return response.data;
 }
 async function toggleTweetLike(tweetId){

@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import subscriptionApi from "../api/subscription.api";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { userChannel } from "../store/features/channelFeatures/channel.Thunks";
 
 export const subscriptionKeys = {
     all: ["subscriptions"],
@@ -27,14 +29,17 @@ export const useSubscribedChannels = (subscriberId) => {
     });
 };
 
-export const useToggleSubscription = () => {
+export const useToggleSubscription = (username) => {
+      const dispatch = useDispatch();
     const queryClient = useQueryClient();
     
     return useMutation({
         mutationFn: (channelId) => subscriptionApi.toggleSubscription(channelId),
         onSuccess: (data, channelId) => {
             // "data" usually contains the boolean status (subscribed: true/false) if your backend sends it
-            
+            if (username){
+                dispatch(userChannel(username));
+            }
             // 1. Invalidate the list of channels the current user is subscribed to
             // (Because they just added/removed one)
             queryClient.invalidateQueries({ 
