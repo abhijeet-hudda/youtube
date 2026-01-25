@@ -6,6 +6,7 @@ import Button from "./Button"
 import Input from "./Input"
 import { registerUser } from "../store/features/authFeatures/auth.Thunks";
 import { clearAuthError } from "../store/features/authFeatures/auth.slice";
+import toast from "react-hot-toast";
 
 function Signup() {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ function Signup() {
     formData.append("coverImage", data.coverImage[0]);
   }
     dispatch(registerUser(formData));
+    toast.success("wellcome to my project")
   };
 
   return (
@@ -151,6 +153,14 @@ function Signup() {
               <Input
                 label="Avatar: "
                 type="file"
+                className="
+                    file:border file:border-black file:border-dashed
+                    file:rounded-md
+                    file:mr-4
+                    file:text-sm
+                    file:cursor-pointer
+                    hover:file:bg-gray-100
+                "
                 placeholder="Enter your avatar"
                 {...register("avatar", {
                   required: "Avatar is required",
@@ -167,6 +177,14 @@ function Signup() {
               <Input
                 label="CoverImage: "
                 type="file"
+                className="
+                    file:border file:border-black file:border-dashed
+                    file:rounded-md
+                    file:mr-4
+                    file:text-sm
+                    file:cursor-pointer
+                    hover:file:bg-gray-100
+                "
                 placeholder="Enter your cover image"
                 {...register("coverImage", {
                   required: "CoverImage is required",

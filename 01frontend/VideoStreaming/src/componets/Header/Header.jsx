@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../store/features/authFeatures/auth.Thunks"; // Adjust path
 import Container from "../container/Container";
+import toast from "react-hot-toast";
 
 function Header({ toggleSidebar }) {
   const navigate = useNavigate();
@@ -11,9 +12,10 @@ function Header({ toggleSidebar }) {
 
   // Get Auth State from Redux
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  //console.log("user",user);
+  //console.log("header user",user);
   const handleLogout = () => {
     dispatch(logoutUser());
+    toast.success("logout ho gya");
     setShowDropdown(false);
     navigate("/login");
   };
@@ -115,7 +117,7 @@ function Header({ toggleSidebar }) {
             /* LOGGED IN VIEW */
             <>
               <Link
-                to="/upload"
+                to="/upload-video"
                 className="hidden sm:flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-full"
               >
                 ➕ <span className="text-sm font-medium">Create</span>

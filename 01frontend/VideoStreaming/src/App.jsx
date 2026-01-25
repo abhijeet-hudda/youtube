@@ -10,6 +10,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import  Video from "./pages/Video.page"
 import UserProfilePage from "./pages/UserProfile.page"
 import History from "./pages/History.page"
+import UploadVideo from "./pages/VideoUpload.page"
+import { Toaster } from "react-hot-toast"
 
 
 function App() {
@@ -61,6 +63,14 @@ function App() {
                 <History/>
             </AuthLayout>
           )
+        },
+        {
+          path:"/upload-video",
+          element:(
+            <AuthLayout authentication={true}>
+              <UploadVideo/>
+            </AuthLayout>
+          )
         }
       ]
     },
@@ -79,6 +89,16 @@ const queryClient = new QueryClient({
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
+         <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          }}
+        />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </Provider>

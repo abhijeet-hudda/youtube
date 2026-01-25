@@ -5,7 +5,7 @@ async function createAccount(formData){
     console.log("this is formData",formData);
     const response = await api.post("/users/register",formData
     )
-    console.log(response)
+    //console.log(response)
     return response.data
 }
 async function login(formData){
