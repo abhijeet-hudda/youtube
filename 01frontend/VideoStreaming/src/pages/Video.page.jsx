@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 
 
+
 function Video() {
   //videoId => getVideoByID => display video
   const dispatch = useDispatch();
@@ -166,9 +167,7 @@ function Video() {
             <div className="flex gap-2 font-semibold text-gray-700 mb-2">
               <span>{formatViews(data.views)} views</span>
               <span>•</span>
-              <span>{formatDistanceToNow(new Date(data.createdAt), {
-                  addSuffix: true,
-                })}</span>
+              <span>{timeAgo(data.createdAt)}</span>
             </div>
             <div className={`whitespace-pre-wrap text-gray-800 `}>
               {data.description}
@@ -198,3 +197,26 @@ function Video() {
 }
 
 export default Video;
+
+
+export const timeAgo = (dateString) => {
+  const date = new Date(dateString);
+  const seconds = Math.floor((Date.now() - date) / 1000);
+
+  const intervals = [
+    { label: "year", seconds: 31536000 },
+    { label: "month", seconds: 2592000 },
+    { label: "day", seconds: 86400 },
+    { label: "hour", seconds: 3600 },
+    { label: "minute", seconds: 60 },
+  ];
+
+  for (const interval of intervals) {
+    const count = Math.floor(seconds / interval.seconds);
+    if (count >= 1) {
+      return `${count} ${interval.label}${count > 1 ? "s" : ""} ago`;
+    }
+  }
+
+  return "just now";
+};

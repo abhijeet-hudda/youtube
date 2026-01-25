@@ -75,6 +75,11 @@ async function refreshAccessToken(){
   const response = await api.post("/refresh-token");
   return response.data;
 };
+async function getWatchHistory(){
+    const response = await api.get("/users/history");
+    //console.log("response",response)
+    return response.data;
+}
 export default {
     createAccount,
     login,
@@ -85,6 +90,7 @@ export default {
     updateAvatar,
     updateCoverImage,
     getUserChannelProfile,
-    refreshAccessToken
+    refreshAccessToken,
+    getWatchHistory
 
 }

@@ -146,6 +146,27 @@ const getVideoById = asyncHandler(async (req, res) => {
   // if (!video) {
   //   throw new ApiError(404, "Video not found");
   // }
+  //  Remove video if already exists
+  await User.updateOne(
+    { _id: req.user?._id },
+    {
+      $pull: { watchHistory: videoId },
+    }
+  );
+
+  // Add video at the beginning
+  await User.updateOne(
+    { _id: req.user?._id },
+    {
+      $push: {
+        watchHistory: {
+          $each: [videoId],
+          $position: 0,
+          $slice: 50, //optional: keep only last 50 videos
+        },
+      },
+    }
+  );
   await Video.findByIdAndUpdate(
     videoId,
     { $inc: { views: 1 } },

@@ -9,6 +9,7 @@ import AuthLayout from "./componets/AuthLayout"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import  Video from "./pages/Video.page"
 import UserProfilePage from "./pages/UserProfile.page"
+import History from "./pages/History.page"
 
 
 function App() {
@@ -50,6 +51,14 @@ function App() {
           element:(
             <AuthLayout authentication={true}>
               <UserProfilePage />
+            </AuthLayout>
+          )
+        },
+        {
+          path:"/history",
+          element:(
+            <AuthLayout authentication={true}>
+                <History/>
             </AuthLayout>
           )
         }
