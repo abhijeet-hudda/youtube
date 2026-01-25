@@ -8,6 +8,7 @@ import { useEffect,useRef } from "react";
 import { useToggleVideoLike } from "../queries/like.queries";
 import {useToggleSubscription} from '../queries/subscription.queries'
 import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
 
 
 function Video() {
@@ -165,7 +166,9 @@ function Video() {
             <div className="flex gap-2 font-semibold text-gray-700 mb-2">
               <span>{formatViews(data.views)} views</span>
               <span>•</span>
-              <span>{formatDate(data.createdAt)}</span>
+              <span>{formatDistanceToNow(new Date(data.createdAt), {
+                  addSuffix: true,
+                })}</span>
             </div>
             <div className={`whitespace-pre-wrap text-gray-800 `}>
               {data.description}

@@ -24,7 +24,11 @@ function UserProfilePage(){
     }
   };
     //console.log("channelProfile user",channelProfile)
-    const { data, error, isLoading } = useVideos(channelProfile?._id);
+    const { data, error, isLoading } = useVideos({
+        userId: channelProfile?._id,
+        page: 1,
+        limit: 10,
+    });
     const allVideos = data?.data?.docs || [];
 
     const formatCount = (num) => {
@@ -78,7 +82,7 @@ function UserProfilePage(){
             </div>
             {/*this for all videos*/}
             <div className="flex gap-8 border-b border-gray-700 text-black font-medium mt-2 overflow-x-auto px-4">
-                    {["Home", "Videos", "Shorts", "Live", "Playlists", "Community"].map((tab) => (
+                    {["Videos", "Playlists"].map((tab) => (
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -111,8 +115,8 @@ function UserProfilePage(){
                     {allVideos && allVideos?.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
                             {allVideos?.map((video) => (
-                                <Link to={`/watch/${video?._id}`}>
-                                    <div key={video._id} className="flex flex-col gap-2 cursor-pointer group">
+                                <Link to={`/watch/${video?._id}`} key={video._id}>
+                                    <div  className="flex flex-col gap-2 cursor-pointer group">
                                         {/* Thumbnail Wrapper */}
                                         <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gray-800">
                                             <img 

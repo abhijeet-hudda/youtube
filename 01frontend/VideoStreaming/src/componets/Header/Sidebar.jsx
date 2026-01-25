@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { Suspense } from "react";
+import { NavLink,Link} from "react-router-dom";
 import { useSubscribedChannels } from "../../queries/subscription.queries";
 import {useSelector} from 'react-redux';
 import SubscriptionCard from "./SubscriptionCard";
@@ -78,9 +78,11 @@ function Sidebar({ isOpen }) {
             <h3 className="px-3 text-base font-semibold mb-2">Subscriptions</h3>
             {/*Data*/}
             {data?.data?.map((subs) =>(
-              <div key={subs?._id} className="w-full">
+              <Link to={`/${subs?.username}`} key={subs?._id}>
+                <div  className="w-full">
                 <SubscriptionCard subsObject={subs} />
               </div>
+              </Link>
             ))}
            
           </div>

@@ -60,7 +60,7 @@ function VideoCard({ videoObject }) {
             
             <div className="flex-1">
               <h3 className="line-clamp-2 text-sm font-semibold text-gray-900">
-                {title}{description}
+                {title}
               </h3>
 
               <p className="mt-1 text-xs text-gray-600">

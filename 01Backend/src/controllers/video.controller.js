@@ -193,7 +193,9 @@ const getVideoById = asyncHandler(async (req, res) => {
           _id: "$owner._id",
           username: "$owner.username",
           avatar: "$owner.avatar"
-        }
+        },
+        createdAt:1,
+        updatedAt:1,
       }
     }
   ]);
