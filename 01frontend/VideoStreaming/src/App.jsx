@@ -13,6 +13,8 @@ import History from "./pages/History.page"
 import UploadVideo from "./pages/VideoUpload.page"
 import { Toaster } from "react-hot-toast"
 import UpdateAccount from "./pages/Update/UpdateAccount.page"
+import UpdateAvatar from "./pages/Update/UpdateAvatar.page"
+import UpdateCoverImage from "./pages/Update/UpdateCoverImage.page"
 
 
 function App() {
@@ -80,7 +82,24 @@ function App() {
               <UpdateAccount/>
             </AuthLayout>
           )
+        },
+        {
+          path:"/update-Avatar",
+          element:(
+            <AuthLayout authentication={true}>
+              <UpdateAvatar/>
+            </AuthLayout>
+          )
+        },
+        {
+          path:"/update-coverImage",
+          element:(
+            <AuthLayout authentication={true}>
+              <UpdateCoverImage/>
+            </AuthLayout>
+          )
         }
+
       ]
     },
   ])

@@ -157,14 +157,12 @@ function Signup() {
               <Input
                 label="Avatar: "
                 type="file"
-                className="
-                    file:border file:border-black file:border-dashed
-                    file:rounded-md
-                    file:mr-4
-                    file:text-sm
-                    file:cursor-pointer
-                    hover:file:bg-gray-100
-                "
+                className="block w-full text-sm text-slate-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-violet-50 file:text-violet-700
+                        hover:file:bg-violet-100 cursor-pointer"
                 placeholder="Enter your avatar"
                 {...register("avatar", {
                   required: "Avatar is required",
@@ -181,14 +179,12 @@ function Signup() {
               <Input
                 label="CoverImage: "
                 type="file"
-                className="
-                    file:border file:border-black file:border-dashed
-                    file:rounded-md
-                    file:mr-4
-                    file:text-sm
-                    file:cursor-pointer
-                    hover:file:bg-gray-100
-                "
+                className="block w-full text-sm text-slate-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-violet-50 file:text-violet-700
+                        hover:file:bg-violet-100 cursor-pointer"
                 placeholder="Enter your cover image"
                 {...register("coverImage", {
                   required: "CoverImage is required",

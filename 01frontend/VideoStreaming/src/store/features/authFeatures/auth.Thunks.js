@@ -67,3 +67,27 @@ export const updateAccountDetails = createAsyncThunk(
     }
   }
 );
+export const updateAvatar = createAsyncThunk(
+  "auth/updateAvatar",
+  async (formData, { rejectWithValue }) => {
+    //console.log("thunk",formData)
+    try {
+      return await authAPI.updateAvatar(formData);
+    } catch (error) {
+      //console.log("error",error);
+      return rejectWithValue(error.response?.data?.message||"Not authenticated");
+    }
+  }
+);
+export const updateCoverImage = createAsyncThunk(
+  "auth/updateCoverImage",
+  async (formData, { rejectWithValue }) => {
+    //console.log("thunk",formData)
+    try {
+      return await authAPI.updateCoverImage(formData);
+    } catch (error) {
+      //console.log("error",error);
+      return rejectWithValue(error.response?.data?.message||"Not authenticated");
+    }
+  }
+);

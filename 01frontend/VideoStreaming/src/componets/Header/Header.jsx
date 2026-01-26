@@ -155,13 +155,13 @@ function Header({ toggleSidebar }) {
                       Update AccountDetails
                     </Link>
                     <Link
-                      to="/profile"
+                      to="/update-Avatar"
                       className="block px-4 py-2 hover:bg-gray-100 text-sm"
                     >
                       Update Avatar
                     </Link>
                     <Link
-                      to="/profile"
+                      to="/update-coverImage"
                       className="block px-4 py-2 hover:bg-gray-100 text-sm"
                     >
                       Update coverImage

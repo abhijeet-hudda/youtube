@@ -64,14 +64,12 @@ function UploadVideo(){
               <Input
                 label="VideoFile: "
                 type="file"
-                 className="
-                    file:border file:border-black file:border-dashed
-                    file:rounded-md
-                    file:mr-4
-                    file:text-sm
-                    file:cursor-pointer
-                    hover:file:bg-gray-100
-                "
+                 className="block w-full text-sm text-slate-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-violet-50 file:text-violet-700
+                        hover:file:bg-violet-100 cursor-pointer"
                 placeholder="Enter videofiel"
                 {...register("videofile", {
                   required: "Video file is required",
@@ -86,14 +84,12 @@ function UploadVideo(){
               <Input
                 label="Thumbnail: "
                 type="file"
-                className="
-                    file:border file:border-black file:border-dashed
-                    file:rounded-md
-                    file:mr-4
-                    file:text-sm
-                    file:cursor-pointer
-                    hover:file:bg-gray-100
-                "
+                className="block w-full text-sm text-slate-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-violet-50 file:text-violet-700
+                        hover:file:bg-violet-100 cursor-pointer"
                 placeholder="Enter thumbnail"
                 {...register("thumbnail", {
                   required: "thumbnail is required",

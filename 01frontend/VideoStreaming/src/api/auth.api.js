@@ -34,35 +34,15 @@ async function updateAccountDetails(data) {
     //console.log(response);
     return response.data;
 }
-async function updateAvatar(avatarFile){
-    const formData = new FormData();
-    formData.append("avatar", avatarFile);
+async function updateAvatar(formData){
     
-    const response = await api.patch("/users/avatar",
-        formData,
-        {
-            headers:{
-                "Content-Type":"multipart/form-data"
-            }
-        }
-    )
+    const response = await api.patch("/users/avatar",formData)
 
     return response.data;
 
 }
-async function updateCoverImage(coverImageFile){
-    const formData = new FormData();
-    formData.append("coverImage", coverImageFile);
-    
-    const response = await api.patch("/users/cover-image",
-        formData,
-        {
-            headers:{
-                "Content-Type":"multipart/form-data"
-            }
-        }
-    )
-
+async function updateCoverImage(formData){ 
+    const response = await api.patch("/users/cover-image",formData)
     return response.data;
 
 }

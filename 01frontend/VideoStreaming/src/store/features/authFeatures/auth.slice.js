@@ -5,6 +5,8 @@ import {
   logoutUser,
   fetchCurrentUser,
   updateAccountDetails,
+  updateAvatar,
+  updateCoverImage
 } from "./auth.Thunks";
 
 const initialState = {
@@ -90,6 +92,35 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload
       })
+      .addCase(updateAvatar.pending,(state)=>{
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateAvatar.fulfilled,(state,action)=>{
+        state.isLoading = false;
+        //console.log("action", action.payload);
+        state.user = action.payload.data
+        state.error = null;
+      })
+      .addCase(updateAvatar.rejected,(state,action)=>{
+        state.isLoading = false;
+        state.error = action.payload
+      })
+      .addCase(updateCoverImage.pending,(state)=>{
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateCoverImage.fulfilled,(state,action)=>{
+        state.isLoading = false;
+        //console.log("action", action.payload);
+        state.user = action.payload.data
+        state.error = null;
+      })
+      .addCase(updateCoverImage.rejected,(state,action)=>{
+        state.isLoading = false;
+        state.error = action.payload
+      })
+
   },
 });
 
