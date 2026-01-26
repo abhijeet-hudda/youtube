@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import videoApi from "../api/video.api"; 
 import { toast } from "react-hot-toast"; // Recommended for production feedback
-
 export const videoKeys = {
     all: ["videos"],
     lists: () => [...videoKeys.all, "list"],
@@ -45,7 +44,8 @@ export const useVideoDetail = (videoId) => {
 };
 
 // 3. Mutation Hook with Feedback
-export const usePublishVideo = () => {
+export const usePublishVideo = (navigate) => {
+   
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -53,6 +53,7 @@ export const usePublishVideo = () => {
         onSuccess: () => {
             toast.success("Video published successfully!");
             queryClient.invalidateQueries({ queryKey: videoKeys.lists() });
+            navigate("/");
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message || "Upload failed");

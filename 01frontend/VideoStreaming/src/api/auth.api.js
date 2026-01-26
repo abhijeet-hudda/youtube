@@ -29,7 +29,7 @@ async function changePassword(data) {
     //console.log(response);
     return response.data
 }
-async function updateAccountDetails() {
+async function updateAccountDetails(data) {
     const response = await api.patch("/users/update-account",data);
     //console.log(response);
     return response.data;

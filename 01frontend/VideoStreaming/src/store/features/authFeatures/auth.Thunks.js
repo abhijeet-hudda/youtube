@@ -54,3 +54,16 @@ export const fetchCurrentUser = createAsyncThunk(
     }
   }
 );
+
+export const updateAccountDetails = createAsyncThunk(
+  "auth/updateAccount",
+  async (formData, { rejectWithValue }) => {
+    //console.log("thunk",formData)
+    try {
+      return await authAPI.updateAccountDetails(formData);
+    } catch (error) {
+      //console.log("error",error);
+      return rejectWithValue(error.response?.data?.message||"Not authenticated");
+    }
+  }
+);

@@ -2,9 +2,11 @@ import Input from "../componets/Input"
 import Button from "../componets/Button"
 import {useForm} from "react-hook-form"
 import { usePublishVideo } from "../queries/video.queries";
+import { useNavigate } from "react-router-dom";
 function UploadVideo(){
+    const navigate = useNavigate();
     const {register,handleSubmit,formState: { errors },} = useForm({mode:      "onBlur"});
-    const {mutate: publishVideo,isPending:isLoading} = usePublishVideo();
+    const {mutate: publishVideo,isPending:isLoading} = usePublishVideo(navigate);
     const videoUploader = (data)=>{
         const formData = new FormData();
         formData.append("title", data.title);
@@ -116,7 +118,7 @@ function UploadVideo(){
                   Upload Video...
                 </span>
               ) : (
-                "Uploaded Video"
+                "Upload Video"
               )}
             </Button>
           </div>

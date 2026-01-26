@@ -149,6 +149,24 @@ function Header({ toggleSidebar }) {
                       Your Channel
                     </Link>
                     <Link
+                      to="/update-account"
+                      className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                    >
+                      Update AccountDetails
+                    </Link>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                    >
+                      Update Avatar
+                    </Link>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                    >
+                      Update coverImage
+                    </Link>
+                    <Link
                       to="/profile"
                       className="block px-4 py-2 hover:bg-gray-100 text-sm"
                     >

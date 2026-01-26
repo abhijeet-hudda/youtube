@@ -4,6 +4,7 @@ import {
   loginUser,
   logoutUser,
   fetchCurrentUser,
+  updateAccountDetails,
 } from "./auth.Thunks";
 
 const initialState = {
@@ -73,7 +74,22 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.isAuthenticated = false;
-      });
+      })
+      /* ===== update ===== */
+      .addCase(updateAccountDetails.pending,(state)=>{
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateAccountDetails.fulfilled,(state,action)=>{
+        state.isLoading = false;
+        //console.log("action", action.payload);
+        state.user = action.payload.data
+        state.error = null;
+      })
+      .addCase(updateAccountDetails.rejected,(state,action)=>{
+        state.isLoading = false;
+        state.error = action.payload
+      })
   },
 });
 

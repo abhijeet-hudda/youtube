@@ -12,6 +12,7 @@ import UserProfilePage from "./pages/UserProfile.page"
 import History from "./pages/History.page"
 import UploadVideo from "./pages/VideoUpload.page"
 import { Toaster } from "react-hot-toast"
+import UpdateAccount from "./pages/Update/UpdateAccount.page"
 
 
 function App() {
@@ -69,6 +70,14 @@ function App() {
           element:(
             <AuthLayout authentication={true}>
               <UploadVideo/>
+            </AuthLayout>
+          )
+        },
+        {
+          path:"/update-account",
+          element:(
+            <AuthLayout authentication={true}>
+              <UpdateAccount/>
             </AuthLayout>
           )
         }

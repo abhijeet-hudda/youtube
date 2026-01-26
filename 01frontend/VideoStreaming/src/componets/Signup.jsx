@@ -7,6 +7,7 @@ import Input from "./Input"
 import { registerUser } from "../store/features/authFeatures/auth.Thunks";
 import { clearAuthError } from "../store/features/authFeatures/auth.slice";
 import toast from "react-hot-toast";
+import { loginUser } from "../store/features/authFeatures/auth.Thunks";
 
 function Signup() {
   const navigate = useNavigate();
@@ -34,24 +35,27 @@ function Signup() {
     // };
   }, [isAuthenticated, navigate, dispatch]);
 
-  const onSignupSubmit = (data) => {
-    const formData = new FormData();
-
-  formData.append("fullname", data.fullname);
-  formData.append("username", data.username);
-  formData.append("email", data.email);
-  formData.append("password", data.password);
-
-  // IMPORTANT: FileList → File
-  if (data.avatar && data.avatar[0]) {
-    formData.append("avatar", data.avatar[0]);
-  }
-
-  if (data.coverImage && data.coverImage[0]) {
-    formData.append("coverImage", data.coverImage[0]);
-  }
-    dispatch(registerUser(formData));
-    toast.success("wellcome to my project")
+  const onSignupSubmit = async(data) => {
+   try {
+      const formData = new FormData();
+      formData.append("fullname", data.fullname);
+      formData.append("username", data.username);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      // IMPORTANT: FileList → File
+      if (data.avatar && data.avatar[0]) {
+        formData.append("avatar", data.avatar[0]);
+      }
+      if (data.coverImage && data.coverImage[0]) {
+        formData.append("coverImage", data.coverImage[0]);
+      }
+      await dispatch(registerUser(formData)).unwrap();
+      toast.success("wellcome to my project")
+      await dispatch(loginUser(formData)).unwrap();
+      
+   } catch (error) {
+    toast.error("Signup failed. Please try again.");
+   }
   };
 
   return (
