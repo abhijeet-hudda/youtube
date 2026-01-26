@@ -1,4 +1,4 @@
-import React from "react"; // Removed 'use' (not needed here)
+import React, { useEffect } from "react"; // Removed 'use' (not needed here)
 import { useVideos } from "../queries/video.queries";
 import Container from "../componets/container/Container";
 import VideoCard from "../componets/VideoCard";
@@ -18,6 +18,7 @@ const VideoSkeleton = () => (
 );
 
 function Home() {
+  useEffect(()=>{},[])
   const { data, error, isLoading } = useVideos();
   const allVideos = data?.data?.docs || [];
   //console.log("allVideos",allVideos)

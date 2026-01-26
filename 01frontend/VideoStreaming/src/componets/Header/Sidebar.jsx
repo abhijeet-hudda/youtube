@@ -7,10 +7,10 @@ import SubscriptionCard from "./SubscriptionCard";
 function Sidebar({ isOpen }) {
 
   const user = useSelector((state) => state.auth);
-  const subscriberId = user?.user?.user?._id;
+  const subscriberId = user?.user?.user?._id||user?.user_id||user?._id;
   //console.log("user", user);
   //console.log("subscriberId", subscriberId);
-  const { data} = useSubscribedChannels(subscriberId);
+  const { data} =  useSubscribedChannels(subscriberId);
   //console.log("subscribed channels data", data.data);
   // Common styling for links
   const baseLinkClass =

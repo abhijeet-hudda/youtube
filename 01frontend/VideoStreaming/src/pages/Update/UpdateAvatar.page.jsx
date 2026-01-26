@@ -30,10 +30,12 @@ function UpdateAvatar() {
     }, [avatarFile]);
 
     const updateAvatarFn = async(data)=>{
+        //console.log("data",data)
         const formData = new FormData();
         formData.append("avatar", data.avatar[0]); 
         try {
-            await dispatch(updateAvatar(formData)).unwrap();
+            const response = await dispatch(updateAvatar(formData)).unwrap();
+            //console.log("dispact" ,response)
             toast.success("Avatar updated successfully!");
             navigate("/");
         } 

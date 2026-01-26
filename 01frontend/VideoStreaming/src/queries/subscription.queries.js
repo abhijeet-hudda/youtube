@@ -13,7 +13,7 @@ export const subscriptionKeys = {
 
 export const useUserChannelSubscribers = (channelId) => {
     return useQuery({
-        queryKey: subscriptionKeys.subscribers(channelId),
+        queryKey: [subscriptionKeys.subscribers(channelId)],
         queryFn: () => subscriptionApi.getUserChannelSubscribers(channelId),
         enabled: !!channelId,
         staleTime: 30_000, 

@@ -6,7 +6,6 @@ import { useDispatch,useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { loginUser } from "../store/features/authFeatures/auth.Thunks";
 import { clearAuthError } from "../store/features/authFeatures/auth.slice";
-import toast from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
@@ -18,7 +17,6 @@ function Login() {
     if (isAuthenticated) {
       navigate("/");
     }
-
     // return () => {
     //   dispatch(clearAuthError());
     // };
@@ -26,8 +24,6 @@ function Login() {
 
   const login = (data) => {
     dispatch(loginUser(data));
-    toast.success("wellcome to my project")
-
   };
 
   return (

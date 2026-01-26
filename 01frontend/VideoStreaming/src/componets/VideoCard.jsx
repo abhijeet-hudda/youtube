@@ -23,8 +23,8 @@ function VideoCard({ videoObject }) {
     views,
     _id,
   } = videoObject;
+  //console.log("owner",owner)
   const { isAuthenticated} = useSelector((state)=>(state.auth))
-  
 
    if(isAuthenticated){
     return (

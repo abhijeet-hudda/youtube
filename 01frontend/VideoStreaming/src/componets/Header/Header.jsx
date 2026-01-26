@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../store/features/authFeatures/auth.Thunks"; // Adjust path
@@ -19,6 +19,8 @@ function Header({ toggleSidebar }) {
     setShowDropdown(false);
     navigate("/login");
   };
+
+  //console.log(user)
 
   return (
     <header className="fixed top-0 left-0 right-0 h-14 bg-white border-b z-50 px-4">
@@ -125,7 +127,7 @@ function Header({ toggleSidebar }) {
 
               <div className="relative">
                 <img
-                  src={user?.user?.avatar || "https://i.pravatar.cc/40"}
+                  src={user?.user?.avatar || user?.avatar || "https://i.pravatar.cc/40"}
                   alt="avatar"
                   className="w-8 h-8 rounded-full cursor-pointer object-cover"
                   onClick={() => setShowDropdown(!showDropdown)}
@@ -135,15 +137,15 @@ function Header({ toggleSidebar }) {
                   <div className="absolute right-0 top-10 w-60 bg-white border border-gray-200 rounded-xl shadow-lg py-2 z-50">
                     <div className="px-4 py-3 border-b border-gray-100">
                       <p className="text-sm font-semibold">
-                        {user?.user?.fullname || "User"}
+                        {user?.user?.fullname ||user?.fullname || "User"}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {user?.user?.email || "@username"}
+                        {user?.user?.email ||user?.email || "@username"}
                       </p>
                     </div>
 
                     <Link
-                      to={`/channel/${user?.user?.username}`}
+                      to={`/channel/${user?.user?.username||user?.username}`}
                       className="block px-4 py-2 hover:bg-gray-100 text-sm"
                     >
                       Your Channel
