@@ -41,11 +41,17 @@ async function updateVideo(videoId, formData) {
       "Content-Type": "multipart/form-data",
     },
   });
+  return response.data;
+}
+async function deleteVideo(videoId){
+  const response = await api.delete(`/videos/delete-video/${videoId}`);
+  return response.data;
 }
 
 export default {
     getAllVideos,
     publishVideo,
     getVideoById,
-    updateVideo
+    updateVideo,
+    deleteVideo
 }

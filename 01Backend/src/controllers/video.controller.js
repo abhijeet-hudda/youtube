@@ -6,6 +6,9 @@ import { ApiResponse } from "../utils/APIResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Like } from "../models/like.model.js";
+import {Comment} from "../models/comment.model.js"
+import { deleteFromCloudinary } from "../utils/deleteFromCloudinary.js";
+import { Playlist } from "../models/playlists.model.js";
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
@@ -289,7 +292,7 @@ const updateVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid videoId");
   }
   const video = await Video.findById(videoId);
-  if (!video) {
+  if (!video){
     throw new ApiError(404, "Video not found");
   }
 
@@ -353,10 +356,59 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, video, "PublishStatus toggled successefully"));
 });
+
+const deleteVideo = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid video id");
+  }
+  const video = await Video.findById(videoId);
+  if (!video) {
+    throw new ApiError(404, "Video not found");
+  }
+  if (video.owner.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "You are not authorized to delete this video");
+  }
+  await Promise.all([
+    Like.deleteMany({ video: videoId }),
+    Comment.deleteMany({ video: videoId }),
+    Playlist.updateMany(
+      { videos: videoId },
+      { $pull: { videos: videoId } }
+    ),
+  ]);
+  try {
+    if (video.videofile) {
+      const videoPublicId = video.videofile
+        .split("/")
+        .pop()
+        .split(".")[0];
+
+      await deleteFromCloudinary(videoPublicId, "video");
+    }
+    if (video.thumbnail) {
+      const thumbPublicId = video.thumbnail
+        .split("/")
+        .pop()
+        .split(".")[0];
+
+      await deleteFromCloudinary(thumbPublicId, "image");
+    }
+  } catch (error) {
+    console.error("Cloudinary deletion failed:", error);
+  }
+  await video.deleteOne();
+  return res.status(200).json(
+    new ApiResponse(200, {}, "Video deleted successfully")
+  );
+});
+
 export {
   getAllVideos,
   publishAVideo,
   getVideoById,
   updateVideo,
   togglePublishStatus,
+  deleteVideo
 };

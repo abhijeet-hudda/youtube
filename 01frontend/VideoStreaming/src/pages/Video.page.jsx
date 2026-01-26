@@ -9,6 +9,7 @@ import { useToggleVideoLike } from "../queries/like.queries";
 import {useToggleSubscription} from '../queries/subscription.queries'
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
+import { useDeleteVideo } from "../queries/video.queries";
 
 
 
@@ -39,9 +40,14 @@ function Video() {
       toggleSubscription(channelProfile._id);
     }
   };
+  const {mutate:deleteVideo} = useDeleteVideo(navigate);
+  const handleDelete =async() => {
+    deleteVideo(videoId);
+};
   //console.log("channelProfile", channelProfile);
 
   //console.log("data",data);
+  const {user} = useSelector((state)=>state.auth)
 
   /*
     data ke ander 
@@ -64,16 +70,6 @@ function Video() {
     if (views >= 1000000) return (views / 1000000).toFixed(1) + "M";
     if (views >= 1000) return (views / 1000).toFixed(1) + "K";
     return views;
-  };
-
-  // Helper: Format Date (Simple version)
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    return new Date(dateString).toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
   };
   
   if (isLoading) {
@@ -156,9 +152,9 @@ function Video() {
               <button className="px-4 py-2 bg-gray-300 rounded-full hover:bg-gray-400 font-medium text-sm transition-colors">
                 Share
               </button>
-              <button className="px-4 py-2 bg-gray-300 rounded-full hover:bg-gray-400 font-medium text-sm transition-colors">
-                Save
-              </button>
+              {<button onClick={handleDelete} className="px-4 py-2 bg-gray-300 rounded-full hover:bg-gray-400 font-medium text-sm transition-colors">
+                Delete Video
+              </button>}
             </div>
           </div>
 

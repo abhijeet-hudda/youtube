@@ -75,3 +75,22 @@ export const useUpdateVideo = () => {
         },
     });
 };
+// 5. delete hook
+export const useDeleteVideo = (navigate) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (videoId) => videoApi.deleteVideo(videoId),
+    onSuccess: (_, videoId) => {
+      toast.success("Video deleted successfully!");
+      navigate("/");
+      queryClient.invalidateQueries({ queryKey: videoKeys.lists() });
+      queryClient.invalidateQueries({
+        queryKey: videoKeys.detail(videoId),
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "Failed to delete video");
+    },
+  });
+};
