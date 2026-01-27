@@ -4,12 +4,13 @@ import { useParams} from "react-router-dom";
 import Container from "../componets/container/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { userChannel } from "../store/features/channelFeatures/channel.Thunks";
-import { useEffect,useRef } from "react";
+import { useEffect,useRef, useState } from "react";
 import { useToggleVideoLike } from "../queries/like.queries";
 import {useToggleSubscription} from '../queries/subscription.queries'
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { useDeleteVideo } from "../queries/video.queries";
+import Playlist from "../componets/Playlist";
 
 
 
@@ -43,11 +44,11 @@ function Video() {
   const {mutate:deleteVideo} = useDeleteVideo(navigate);
   const handleDelete =async() => {
     deleteVideo(videoId);
-};
-  //console.log("channelProfile", channelProfile);
+  }
+  const [isPlayListOpen,setIsPlayListOpen] = useState(false)
 
+  //console.log("channelProfile", channelProfile);
   //console.log("data",data);
-  const {user} = useSelector((state)=>state.auth)
 
   /*
     data ke ander 
@@ -152,9 +153,17 @@ function Video() {
               <button className="px-4 py-2 bg-gray-300 rounded-full hover:bg-gray-400 font-medium text-sm transition-colors">
                 Share
               </button>
-              {<button onClick={handleDelete} className="px-4 py-2 bg-gray-300 rounded-full hover:bg-gray-400 font-medium text-sm transition-colors">
+              <button onClick={handleDelete} className="px-4 py-2 bg-gray-300 rounded-full hover:bg-gray-400 font-medium text-sm transition-colors">
                 Delete Video
-              </button>}
+              </button>
+              <button 
+              onClick={() => setIsPlayListOpen(true)}
+                className="px-4 py-2 bg-gray-300 rounded-full hover:bg-gray-400 font-medium text-sm transition-colors flex items-center gap-2"
+              >
+                Save
+              </button>
+                            
+
             </div>
           </div>
 
@@ -188,6 +197,12 @@ function Video() {
           </div>
         </div>
       </div>
+      {isPlayListOpen && (
+        <Playlist 
+          videoId={videoId} 
+          onClose={() => setIsPlayListOpen(false)} 
+        />
+      )}
     </Container>
   );
 }

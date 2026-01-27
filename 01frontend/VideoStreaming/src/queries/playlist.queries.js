@@ -35,7 +35,7 @@ export const useGetPlaylist = (playlistId) => {
 export const useCreatePlaylist = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: playlistApi.createPlaylist,
+        mutationFn:(formData)=> playlistApi.createPlaylist(formData),
         onSuccess: () => {
             toast.success("Playlist created successfully");
             // Invalidate all lists to show the new playlist in the user's view
@@ -47,12 +47,12 @@ export const useCreatePlaylist = () => {
     });
 };
 
-export const useAddVideoPlaylist = () => {
+export const useAddVideoToPlaylist = () => {
     const queryClient = useQueryClient();
     return useMutation({
         // Mutations take a single argument object
         mutationFn: ({ videoId, playlistId }) => 
-            playlistApi.addVideoToPlaylist({ videoId, playlistId }),
+            playlistApi.addVideoPlaylist({ videoId, playlistId }),
         onSuccess: (_, variables) => {
             toast.success("Video added to playlist");
             // Invalidate the specific playlist that was modified

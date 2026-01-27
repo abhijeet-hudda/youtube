@@ -1,22 +1,24 @@
 import api from "./axios.instance";
 
-async function createPlaylist({name,description}) {
-    const response = await api.post("/playlists/create-playlist",{
-        name,
-        description
-    })
+async function createPlaylist(formData) {
+    const response = await api.post("/playlists/create-playlist",formData)
     return response.data;
 }
 async function getUserPlaylists(userId){
-    const response = await api.get(`/plalists/getuser-playlists/${userId}`)
+    //console.log("api userId",userId)
+    const response = await api.get(`/playlists/getuser-playlists/${userId}`)
+    //console.log("api response",response.data);
     return response.data;
 }
 async function getPlaylistById(playlistId){
     const response = await api.get(`/playlists/get-playlistbyId/${playlistId}`)
     return response.data;
 }
-async function addVideoToPlaylist(videoId,playlistId){
+async function addVideoPlaylist({videoId,playlistId}){
+    //console.log("playlistId",playlistId);
+    //console.log("videoId",videoId);
     const response = await api.patch(`/playlists/${playlistId}/videos/${videoId}`)
+    //console.log("res data",response.data)
     return response.data;
 }
 async function updatePlaylist(playlistId,{name,description}) {
@@ -31,6 +33,6 @@ export default {
     createPlaylist,
     getUserPlaylists,
     getPlaylistById,
-    addVideoToPlaylist,
+    addVideoPlaylist,
     updatePlaylist
 }
