@@ -11,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { useDeleteVideo } from "../queries/video.queries";
 import Playlist from "../componets/Playlist";
-
-
+import {fetchCurrentUser} from "../store/features/authFeatures/auth.Thunks"
 
 function Video() {
   //videoId => getVideoByID => display video
@@ -46,7 +45,9 @@ function Video() {
     deleteVideo(videoId);
   }
   const [isPlayListOpen,setIsPlayListOpen] = useState(false)
-
+  // useEffect(()=>{
+  //   dispatch(fetchCurrentUser());
+  // },[dispatch])
   //console.log("channelProfile", channelProfile);
   //console.log("data",data);
 

@@ -15,9 +15,18 @@ import { Toaster } from "react-hot-toast"
 import UpdateAccount from "./pages/Update/UpdateAccount.page"
 import UpdateAvatar from "./pages/Update/UpdateAvatar.page"
 import UpdateCoverImage from "./pages/Update/UpdateCoverImage.page"
+import PlaylistPage from "./pages/Playlists.page"
+import { useDispatch } from "react-redux"
+import { fetchCurrentUser } from "./store/features/authFeatures/auth.Thunks"
+import { useEffect } from "react"
 
 
 function App() {
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(fetchCurrentUser());
+  // }, [dispatch]);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -98,8 +107,15 @@ function App() {
               <UpdateCoverImage/>
             </AuthLayout>
           )
+        },
+        {
+          path:"/user-playlists",
+          element:(
+            <AuthLayout authentication={true}>
+                <PlaylistPage/>
+            </AuthLayout>
+          )
         }
-
       ]
     },
   ])
@@ -115,6 +131,7 @@ const queryClient = new QueryClient({
   },
 })
   return (
+    
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
          <Toaster

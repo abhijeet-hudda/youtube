@@ -12,49 +12,48 @@ export const subscriptionKeys = {
 };
 
 export const useUserChannelSubscribers = (channelId) => {
-    return useQuery({
-        queryKey: [subscriptionKeys.subscribers(channelId)],
-        queryFn: () => subscriptionApi.getUserChannelSubscribers(channelId),
-        enabled: !!channelId,
-        staleTime: 30_000, 
-    });
+  return useQuery({
+    queryKey: subscriptionKeys.subscribers(channelId),
+    queryFn: () => subscriptionApi.getUserChannelSubscribers(channelId),
+    enabled: !!channelId,
+    staleTime: 30_000,
+  });
 };
 
 export const useSubscribedChannels = (subscriberId) => {
-    return useQuery({
-        queryKey: subscriptionKeys.subscribed(subscriberId),
-        queryFn: () => subscriptionApi.getSubscribedChannels(subscriberId),
-        enabled: !!subscriberId,
-        staleTime: 30_000,
-    });
+  return useQuery({
+    queryKey: subscriptionKeys.subscribed(subscriberId),
+    queryFn: () => subscriptionApi.getSubscribedChannels(subscriberId),
+    enabled: !!subscriberId,
+    staleTime: 30_000,
+  });
 };
 
 export const useToggleSubscription = (username) => {
-      const dispatch = useDispatch();
-    const queryClient = useQueryClient();
-    
-    return useMutation({
-        mutationFn: (channelId) => subscriptionApi.toggleSubscription(channelId),
-        onSuccess: (data, channelId) => {
-            // "data" usually contains the boolean status (subscribed: true/false) if your backend sends it
-            if (username){
-                dispatch(userChannel(username));
-            }
-            // 1. Invalidate the list of channels the current user is subscribed to
-            // (Because they just added/removed one)
-            queryClient.invalidateQueries({ 
-                queryKey: subscriptionKeys.lists() 
-            });
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
-            // Optional: If you want to force refresh the specific channel's sub count immediately:
-            queryClient.invalidateQueries({
-                 queryKey: subscriptionKeys.subscribers(channelId) 
-            });
-            
-            toast.success("Subscription updated");
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message || "Failed to toggle subscription");
-        }
-    });
+  return useMutation({
+    mutationFn: (channelId) =>
+      subscriptionApi.toggleSubscription(channelId),
+
+    onSuccess: (_, channelId) => {
+      if (username) {
+        dispatch(userChannel(username));
+      }
+      queryClient.invalidateQueries({
+        queryKey: subscriptionKeys.all,
+        exact: false,
+      });
+
+      toast.success("Subscription updated");
+    },
+
+    onError: (error) => {
+      toast.error(
+        error?.response?.data?.message ||
+        "Failed to toggle subscription"
+      );
+    },
+  });
 };

@@ -2,7 +2,8 @@ import React, { useEffect } from "react"; // Removed 'use' (not needed here)
 import { useVideos } from "../queries/video.queries";
 import Container from "../componets/container/Container";
 import VideoCard from "../componets/VideoCard";
-
+import { fetchCurrentUser } from "../store/features/authFeatures/auth.Thunks";
+import { useDispatch } from "react-redux";
 
 const VideoSkeleton = () => (
   <div className="flex flex-col gap-2">
@@ -18,7 +19,10 @@ const VideoSkeleton = () => (
 );
 
 function Home() {
-  useEffect(()=>{},[])
+  // const dispatch = useDispatch();
+  // useEffect(()=>{
+  //   dispatch(fetchCurrentUser());
+  // },[dispatch])
   const { data, error, isLoading } = useVideos();
   const allVideos = data?.data?.docs || [];
   //console.log("allVideos",allVideos)

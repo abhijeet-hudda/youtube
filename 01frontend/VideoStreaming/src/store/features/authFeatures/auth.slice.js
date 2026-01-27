@@ -6,7 +6,7 @@ import {
   fetchCurrentUser,
   updateAccountDetails,
   updateAvatar,
-  updateCoverImage
+  updateCoverImage,
 } from "./auth.Thunks";
 
 const initialState = {
@@ -22,6 +22,27 @@ const authSlice = createSlice({
   reducers: {
     clearAuthError: (state) => {
       state.error = null;
+    },
+
+    updateUserAvatar: (state, action) => {
+      if (state.user) {
+        state.user.avatar = action.payload;
+      }
+    },
+
+    updateUserCoverImage: (state, action) => {
+      if (state.user) {
+        state.user.coverImage = action.payload;
+      }
+    },
+
+    updateUserAccount: (state, action) => {
+      if (state.user) {
+        state.user = {
+          ...state.user,
+          ...action.payload,
+        };
+      }
     },
   },
   extraReducers: (builder) => {
@@ -78,51 +99,48 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       })
       /* ===== update ===== */
-      .addCase(updateAccountDetails.pending,(state)=>{
+      .addCase(updateAccountDetails.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(updateAccountDetails.fulfilled,(state,action)=>{
+      .addCase(updateAccountDetails.fulfilled, (state, action) => {
         state.isLoading = false;
         //console.log("action", action.payload);
-        state.user = action.payload.data
+        state.user = action.payload.data;
         state.error = null;
       })
-      .addCase(updateAccountDetails.rejected,(state,action)=>{
+      .addCase(updateAccountDetails.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload
+        state.error = action.payload;
       })
-      .addCase(updateAvatar.pending,(state)=>{
+      .addCase(updateAvatar.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
       })
-      .addCase(updateAvatar.fulfilled,(state,action)=>{
+      .addCase(updateAvatar.fulfilled, (state) => {
         state.isLoading = false;
-        //console.log("action", action.payload);
-        state.user = action.payload.data
-        state.error = null;
       })
-      .addCase(updateAvatar.rejected,(state,action)=>{
+      .addCase(updateAvatar.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload
-      })
-      .addCase(updateCoverImage.pending,(state)=>{
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(updateCoverImage.fulfilled,(state,action)=>{
-        state.isLoading = false;
-        //console.log("action", action.payload);
-        state.user = action.payload.data
-        state.error = null;
-      })
-      .addCase(updateCoverImage.rejected,(state,action)=>{
-        state.isLoading = false;
-        state.error = action.payload
+        state.error = action.payload;
       })
 
+      .addCase(updateCoverImage.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateCoverImage.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(updateCoverImage.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const { clearAuthError } = authSlice.actions;
+export const {
+  clearAuthError,
+  updateUserAvatar,
+  updateUserCoverImage,
+  updateUserAccount,
+} = authSlice.actions;
 export default authSlice.reducer;

@@ -1,16 +1,21 @@
-import React, { Suspense } from "react";
+import React, {useState,useEffect} from "react";
 import { NavLink,Link} from "react-router-dom";
 import { useSubscribedChannels } from "../../queries/subscription.queries";
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import SubscriptionCard from "./SubscriptionCard";
+import { fetchCurrentUser } from "../../store/features/authFeatures/auth.Thunks";
 
 function Sidebar({ isOpen }) {
-
-  const user = useSelector((state) => state.auth);
-  const subscriberId = user?.user?.user?._id||user?.user_id||user?._id;
-  //console.log("user", user);
+  const dispatch = useDispatch();
+  // useEffect(()=>{
+  //   dispatch(fetchCurrentUser());
+  // },[dispatch])
+  const { user } = useSelector((state) => state.auth);
+  const subscriberId = user?._id || user?.user?._id ||user?.user?.user?._id;
+  console.log("user", user);
   //console.log("subscriberId", subscriberId);
   const { data} =  useSubscribedChannels(subscriberId);
+  const [isYouOpen, setIsYouOpen] = useState(true);
   //console.log("subscribed channels data", data.data);
   // Common styling for links
   const baseLinkClass =
@@ -57,15 +62,62 @@ function Sidebar({ isOpen }) {
           <span className={`text-sm ${!isOpen && "text-[10px]"}`}>Subs</span>
         </NavLink>
 
-        <NavLink
-          to="/history"
-          className={({ isActive }) =>
-            `${isOpen ? baseLinkClass : compactLinkClass} ${isActive ? "bg-gray-100 font-bold" : ""}`
-          }
-        >
-          <span className="text-xl">📂</span>
-          <span className={`text-sm ${!isOpen && "text-[10px]"}`}>You</span>
-        </NavLink>
+        <div className="flex flex-col">
+          <div
+            onClick={() => {
+              // If sidebar is closed, maybe navigate to history or expand sidebar
+              if (!isOpen) return; 
+              setIsYouOpen(!isYouOpen);
+            }}
+            className={`${
+              isOpen ? baseLinkClass : compactLinkClass
+            } cursor-pointer hover:bg-gray-100 justify-between group`}
+          >
+            <div className="flex items-center gap-4">
+              <span className="text-xl">📂</span>
+              <span className={`text-sm ${!isOpen && "text-[10px]"}`}>You</span>
+            </div>
+            {/* Show arrow only when sidebar is open */}
+            {isOpen && (
+              <span className="text-xs text-gray-500">
+                {isYouOpen ? "▲" : "▼"}
+              </span>
+            )}
+          </div>
+
+          {/* Sub-menu: Only show if Sidebar is Open AND "You" is toggled on */}
+          {isOpen && isYouOpen && (
+            <div className="flex flex-col mt-1 ml-4 border-l-2 border-gray-200 pl-2 space-y-1">
+              
+              {/* 1. History Link */}
+              <NavLink
+                to="/history"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 p-2 rounded-lg text-sm hover:bg-gray-200 transition-colors ${
+                    isActive ? "bg-gray-200 font-bold" : "text-gray-700"
+                  }`
+                }
+              >
+                <span>⏳</span> {/* Or use <History size={18} /> */}
+                <span>History</span>
+              </NavLink>
+
+              {/* 2. Playlists Link */}
+              <NavLink
+                to="/user-playlists"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 p-2 rounded-lg text-sm hover:bg-gray-200 transition-colors ${
+                    isActive ? "bg-gray-200 font-bold" : "text-gray-700"
+                  }`
+                }
+              >
+                <span>playlist</span> {/* Or use <ListVideo size={18} /> */}
+                <span>Playlists</span>
+              </NavLink>
+              
+            </div>
+          )}
+        </div>
 
       </nav>
 

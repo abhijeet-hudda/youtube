@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../../store/features/authFeatures/auth.Thunks"; // Adjust path
+import { logoutUser,fetchCurrentUser } from "../../store/features/authFeatures/auth.Thunks"; // Adjust path
 import Container from "../container/Container";
 import toast from "react-hot-toast";
 
@@ -9,7 +9,6 @@ function Header({ toggleSidebar }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
-
   // Get Auth State from Redux
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   //console.log("header user",user);

@@ -32,7 +32,7 @@ async function publishVideo(formData) {
 }
 async function getVideoById(videoId) {
   const response = await api.get(`/videos/${videoId}`);
-  //console.log("getvideoById",response)
+  console.log("getvideoById",response)
   return response.data;
 }
 async function updateVideo(videoId, formData) {
