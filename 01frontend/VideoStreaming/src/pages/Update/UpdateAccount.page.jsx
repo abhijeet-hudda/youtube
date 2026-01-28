@@ -53,7 +53,7 @@ function UpdateAccount() {
       dispatch(fetchCurrentUser());
       queryClient.invalidateQueries({ queryKey: ["videos"] });
       queryClient.invalidateQueries({
-        queryKey: ["subscribedChannels"],
+        queryKey: ["subscriptions"],
         exact: false,
       });
       //queryClient.invalidateQueries({ queryKey: ["channel"] });

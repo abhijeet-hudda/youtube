@@ -11,7 +11,7 @@ async function createAccount(formData){
 async function login(formData){
     const response = await api.post("/users/login",formData
     );
-    //console.log(response)
+    console.log(response.data.data)
     return response.data
 }
 async function logout(){

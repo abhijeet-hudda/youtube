@@ -6,13 +6,14 @@ import SubscriptionCard from "./SubscriptionCard";
 import { fetchCurrentUser } from "../../store/features/authFeatures/auth.Thunks";
 
 function Sidebar({ isOpen }) {
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
+  
+  const { user } = useSelector((state) => state.auth);
   // useEffect(()=>{
   //   dispatch(fetchCurrentUser());
-  // },[dispatch])
-  const { user } = useSelector((state) => state.auth);
+  // },[dispatch,user])
   const subscriberId = user?._id || user?.user?._id ||user?.user?.user?._id;
-  console.log("user", user);
+  //console.log("user", user);
   //console.log("subscriberId", subscriberId);
   const { data} =  useSubscribedChannels(subscriberId);
   const [isYouOpen, setIsYouOpen] = useState(true);
@@ -103,16 +104,23 @@ function Sidebar({ isOpen }) {
               </NavLink>
 
               {/* 2. Playlists Link */}
-              <NavLink
-                to="/user-playlists"
-                className={({ isActive }) =>
-                  `flex items-center gap-3 p-2 rounded-lg text-sm hover:bg-gray-200 transition-colors ${
-                    isActive ? "bg-gray-200 font-bold" : "text-gray-700"
-                  }`
-                }
-              >
-                <span>playlist</span> {/* Or use <ListVideo size={18} /> */}
-                <span>Playlists</span>
+              <NavLink to="/user-playlists" 
+                  className={({ isActive }) =>
+                      `flex items-center gap-3 p-2 rounded-lg text-sm hover:bg-gray-200 transition-colors ${
+                        isActive ? "bg-gray-200 font-bold" : "text-gray-700"
+                      }`
+                    }
+                  >
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 24 24" 
+                    fill="currentColor" 
+                    className="w-5 h-5" // Tailwind size classes
+                  >
+                    <path d="M3 6h18v2H3V6zm0 5h12v2H3v-2zm0 5h12v2H3v-2zm13 0v5l6-3-6-3z" />
+                  </svg>
+                  
+                  <span>Playlists</span>
               </NavLink>
               
             </div>
@@ -121,7 +129,7 @@ function Sidebar({ isOpen }) {
 
       </nav>
 
-      {/* Show detailed lists only when expanded */}
+      {/*Show detailed lists only when expanded*/}
       {isOpen && (
         <>
           <hr className="my-2 border-gray-200" />

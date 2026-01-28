@@ -22,7 +22,8 @@ function UpdateAvatar() {
   const queryClient = useQueryClient();
 
   const { user, isLoading } = useSelector((state) => state.auth);
-  const [preview, setPreview] = useState(user?.avatar || "");
+  console.log(user)
+  const [preview, setPreview] = useState(user?.user?.avatar ||user?.avatar||user?.avatar || "");
 
   const {
     register,
@@ -51,7 +52,7 @@ function UpdateAvatar() {
       dispatch(fetchCurrentUser());
       queryClient.invalidateQueries({ queryKey: ["videos"] });
       queryClient.invalidateQueries({
-        queryKey: ["subscribedChannels"],
+        queryKey: ["subscriptions"],
         exact: false,
       });
       //queryClient.invalidateQueries({ queryKey: ["channel"] });

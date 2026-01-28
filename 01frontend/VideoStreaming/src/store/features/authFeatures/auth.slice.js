@@ -54,6 +54,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
+        //console.log("register",action.payload.data);
         state.user = action.payload.data;
         state.isAuthenticated = true;
       })
@@ -69,6 +70,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
+        //console.log("login",action.payload.data)
         state.user = action.payload.data;
         state.isAuthenticated = true;
       })

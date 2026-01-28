@@ -20,108 +20,98 @@ import { useDispatch } from "react-redux"
 import { fetchCurrentUser } from "./store/features/authFeatures/auth.Thunks"
 import { useEffect } from "react"
 
-
-function App() {
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchCurrentUser());
-  // }, [dispatch]);
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element:<Layout/>,
-      children:[
-        {
-          path: "/",
-          element: <Home />,
-        },
-        {
-          path: "/login",
-          element: (
-            <AuthLayout authentication={false}>
-              <Login />
-            </AuthLayout>
-          ),
-        },
-        {
-          path: "/signup",
-          element: (
-            <AuthLayout authentication={false}>
-              <Signup />
-            </AuthLayout>
-          ),
-        },
-        {
-          path:"watch/:videoId",
-          element:(
-            <AuthLayout authentication={true}>
-              <Video />
-            </AuthLayout>
-          )
-        },
-        {
-          path:"/:username",
-          element:(
-            <AuthLayout authentication={true}>
-              <UserProfilePage />
-            </AuthLayout>
-          )
-        },
-        {
-          path:"/history",
-          element:(
-            <AuthLayout authentication={true}>
-                <History/>
-            </AuthLayout>
-          )
-        },
-        {
-          path:"/upload-video",
-          element:(
-            <AuthLayout authentication={true}>
-              <UploadVideo/>
-            </AuthLayout>
-          )
-        },
-        {
-          path:"/update-account",
-          element:(
-            <AuthLayout authentication={true}>
-              <UpdateAccount/>
-            </AuthLayout>
-          )
-        },
-        {
-          path:"/update-Avatar",
-          element:(
-            <AuthLayout authentication={true}>
-              <UpdateAvatar/>
-            </AuthLayout>
-          )
-        },
-        {
-          path:"/update-coverImage",
-          element:(
-            <AuthLayout authentication={true}>
-              <UpdateCoverImage/>
-            </AuthLayout>
-          )
-        },
-        {
-          path:"/user-playlists",
-          element:(
-            <AuthLayout authentication={true}>
-                <PlaylistPage/>
-            </AuthLayout>
-          )
-        }
-      ]
-    },
-  ])
-  
-
-
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element:<Layout/>,
+    children:[
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: (
+          <AuthLayout authentication={false}>
+            <Login />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <AuthLayout authentication={false}>
+            <Signup />
+          </AuthLayout>
+        ),
+      },
+      {
+        path:"watch/:videoId",
+        element:(
+          <AuthLayout authentication={true}>
+            <Video />
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/:username",
+        element:(
+          <AuthLayout authentication={true}>
+            <UserProfilePage />
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/history",
+        element:(
+          <AuthLayout authentication={true}>
+              <History/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/upload-video",
+        element:(
+          <AuthLayout authentication={true}>
+            <UploadVideo/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/update-account",
+        element:(
+          <AuthLayout authentication={true}>
+            <UpdateAccount/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/update-Avatar",
+        element:(
+          <AuthLayout authentication={true}>
+            <UpdateAvatar/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/update-coverImage",
+        element:(
+          <AuthLayout authentication={true}>
+            <UpdateCoverImage/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/user-playlists",
+        element:(
+          <AuthLayout authentication={true}>
+              <PlaylistPage/>
+          </AuthLayout>
+        )
+      }
+    ]
+  },
+]);
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -130,25 +120,52 @@ const queryClient = new QueryClient({
     },
   },
 })
-  return (
+// function App() {
+//   // const dispatch = useDispatch();
+
+//   // useEffect(() => {
+//   //   dispatch(fetchCurrentUser());
+//   // }, [dispatch]);
+
+//   return (
     
+//     <Provider store={store}>
+//       <QueryClientProvider client={queryClient}>
+//          <Toaster
+//           position="top-right"
+//           toastOptions={{
+//             duration: 3000,
+//             style: {
+//               background: "#333",
+//               color: "#fff",
+//             },
+//           }}
+//         />
+//         <RouterProvider router={router} />
+//       </QueryClientProvider>
+//     </Provider>
+//   )
+
+// }
+function AppContent() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
+  return <RouterProvider router={router} />;
+}
+
+function App() {
+  return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-         <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: "#333",
-              color: "#fff",
-            },
-          }}
-        />
-        <RouterProvider router={router} />
+        <Toaster position="top-right" />
+        <AppContent />
       </QueryClientProvider>
     </Provider>
-  )
-
+  );
 }
 
 export default App

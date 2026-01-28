@@ -13,7 +13,7 @@ const channelSlice = createSlice({
     reducers:{},
     extraReducers:(builder)=>{
         builder
-        .addCase(userChannel.pending,(state,action)=>{
+        .addCase(userChannel.pending,(state)=>{
             state.isLoading = true;
             state.error = null;
         })
