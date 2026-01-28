@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { commentApi } from "../api/comment.api";
+import  commentApi from "../api/comment.api";
+import toast from "react-hot-toast";
 
 export const commentKeys = {
     all: ['comments'],
@@ -12,17 +13,22 @@ export const useVideoComments = (videoId, params) => {
         queryFn: () => commentApi.getVideoComments(videoId, params),
         enabled: !!videoId,
         placeholderData: (previousData) => previousData,
-        staleTime: 30 * 1000,
+        // staleTime: 30 * 1000,
     });
 };
 
-export const useAddComment = (videoId) => {
+export const useAddComment = ({videoId}) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (content) => commentApi.addComment(videoId, content),
         onSuccess: () => {
             // Refetch the list so the new comment appears
+            toast.success("comment added successfully!!")
+            queryClient.invalidateQueries({queryKey:commentKeys.all})
             queryClient.invalidateQueries({ queryKey: commentKeys.videoComments(videoId) });
+        },
+        onError: ()=>{
+            toast.error("Failed to add comment")
         }
     });
 };

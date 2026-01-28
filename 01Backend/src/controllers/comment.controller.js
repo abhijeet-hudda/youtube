@@ -10,6 +10,8 @@ const getVideoComments = asyncHandler(async (req, res) => {
     //TODO: get all comments for a video
     const {videoId} = req.params
     const {page = 1, limit = 10} = req.query
+    // console.log(videoId)
+    // console.log(limit)
 
     if(!isValidObjectId(videoId)){
         throw new ApiError(400,"Invalid video id")
@@ -72,6 +74,8 @@ const addComment = asyncHandler(async (req, res) => {
     // TODO: add a comment to a video
     const {content} = req.body
     const {videoId} = req.params
+    console.log(videoId);
+    console.log(content)
 
     if(!isValidObjectId(videoId)){
         throw new ApiError(400,"Invalid video id")

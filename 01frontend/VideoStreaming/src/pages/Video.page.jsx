@@ -12,6 +12,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useDeleteVideo } from "../queries/video.queries";
 import Playlist from "../componets/Playlist";
 import {fetchCurrentUser} from "../store/features/authFeatures/auth.Thunks"
+import CommentSection from "../componets/CommentSection";
 
 function Video() {
   //videoId => getVideoByID => display video
@@ -45,6 +46,7 @@ function Video() {
     deleteVideo(videoId);
   }
   const [isPlayListOpen,setIsPlayListOpen] = useState(false)
+  
   // useEffect(()=>{
   //   dispatch(fetchCurrentUser());
   // },[dispatch])
@@ -189,6 +191,11 @@ function Video() {
                     )*/}
           </div>
           {/*comment ke liye add karna h */}
+          <div className="w-full">
+            <CommentSection 
+            videoId={videoId}
+            />
+          </div>
         </div>
         {/*right colum */}
         <div className="w-full lg:w-[30%] lg:sitcky lg:top-4 h-fit">
@@ -232,3 +239,8 @@ export const timeAgo = (dateString) => {
 
   return "just now";
 };
+
+
+// ${commentText?.trim() 
+//                           ? 'bg-blue-600 text-white hover:bg-blue-700' 
+//                           : 'bg-gray-200 text-gray-500 cursor-not-allowed'}

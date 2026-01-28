@@ -5,7 +5,7 @@ import { usePublishVideo } from "../queries/video.queries";
 import { useNavigate } from "react-router-dom";
 function UploadVideo(){
     const navigate = useNavigate();
-    const {register,handleSubmit,formState: { errors },} = useForm({mode:      "onBlur"});
+    const {register,handleSubmit,formState: { errors },} = useForm({mode:"onBlur"});
     const {mutate: publishVideo,isPending:isLoading} = usePublishVideo(navigate);
     const videoUploader = (data)=>{
         const formData = new FormData();

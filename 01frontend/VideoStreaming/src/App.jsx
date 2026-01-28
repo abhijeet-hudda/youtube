@@ -161,7 +161,16 @@ function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <Toaster position="top-right" />
+       <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          }}
+        />
         <AppContent />
       </QueryClientProvider>
     </Provider>
