@@ -25,7 +25,7 @@ export const useSubscribedChannels = (subscriberId) => {
     queryKey: subscriptionKeys.subscribed(subscriberId),
     queryFn: () => subscriptionApi.getSubscribedChannels(subscriberId),
     enabled: !!subscriberId,
-    staleTime: 30_000,
+    //staleTime: 30_000,
   });
 };
 

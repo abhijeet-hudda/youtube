@@ -8,6 +8,7 @@ import {
     updateVideo,
    } from "../controllers/video.controller.js";
 import { upload } from "../middlewares/multer.middlewares.js";
+import { toggleVideoLike } from "../controllers/like.controller.js";
 
 const router = Router();
 
@@ -38,7 +39,7 @@ router.route("/updateVideo/:videoId").patch(
     updateVideo
 )
 router.route("/delete-video/:videoId").delete(deleteVideo);
-
+router.route("/toggle-videolike/:videoId/like").post(toggleVideoLike)
 
 export default router
 

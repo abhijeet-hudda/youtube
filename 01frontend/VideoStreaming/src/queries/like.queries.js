@@ -59,8 +59,11 @@ export const useToggleCommentLike = () => {
     return useMutation({
         mutationFn: (commentId) => likeApi.toggleCommentLike(commentId),
         onSuccess: (data, commentId) => {
-            
             toast.success("Comment like updated");
+            queryClient.invalidateQueries({
+                queryKey: ["comments"],
+                exact: false,
+            });
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message || "Failed to like comment");

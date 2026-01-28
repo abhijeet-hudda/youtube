@@ -13,7 +13,7 @@ export const useVideoComments = (videoId, params) => {
         queryFn: () => commentApi.getVideoComments(videoId, params),
         enabled: !!videoId,
         placeholderData: (previousData) => previousData,
-        // staleTime: 30 * 1000,
+        staleTime: 30 * 1000,
     });
 };
 
@@ -54,5 +54,14 @@ export const useDeleteComment = (videoId) => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: commentKeys.videoComments(videoId) });
         }
+    });
+};
+
+export const useGetCommentById= (commentId) => {
+    return useQuery({
+        queryKey: commentKeys.videoComments(commentId),
+        queryFn: () => commentApi.getCommentById(commentId),
+        enabled: !!commentId,
+        //staleTime: 30 * 1000,
     });
 };

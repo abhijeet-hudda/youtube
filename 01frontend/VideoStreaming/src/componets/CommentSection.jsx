@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useVideoComments, useAddComment } from "../queries/comment.queries";
 import CommentCard from "./CommentCard";
+import {useSelector} from "react-redux"
 
 function CommentSection(videoId) {
   const [isCommentBoxFocused, setIsCommentBoxFocused] = useState(false);
@@ -29,7 +30,8 @@ function CommentSection(videoId) {
     setCommentText("");
     setIsCommentBoxFocused(false);
   };
-  
+  const {user} = useSelector((state)=>state.auth);
+  //console.log(user)
   if (isLoading) return <p>Loading comments...</p>;
   if (isError) return <p>{error.message}</p>;
   return (
@@ -38,7 +40,9 @@ function CommentSection(videoId) {
 
       {/* Comment Input Section */}
       <div className="flex gap-4 mb-8">
-        <div className="w-10 h-10 rounded-full bg-gray-300 shrink-0"></div>
+        <div >
+          <img src={user?.user?.avatar||user?.avatar} alt="" className="w-10 h-10 rounded-full bg-gray-300 shrink-0"/>
+        </div>
         <div className="w-full">
           <input
             type="text"

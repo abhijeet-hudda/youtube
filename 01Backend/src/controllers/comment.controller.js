@@ -74,8 +74,8 @@ const addComment = asyncHandler(async (req, res) => {
     // TODO: add a comment to a video
     const {content} = req.body
     const {videoId} = req.params
-    console.log(videoId);
-    console.log(content)
+    // console.log(videoId);
+    // console.log(content)
 
     if(!isValidObjectId(videoId)){
         throw new ApiError(400,"Invalid video id")
@@ -174,9 +174,54 @@ const deleteComment = asyncHandler(async (req, res) => {
     ));
 })
 
+const getCommentById = asyncHandler(async (req, res) => {
+  const { commentId } = req.params;
+  //TODO: get video by id
+  /* steps 
+    1. validate videoId
+    2. use findById to get video from db
+    */
+  if (!isValidObjectId(commentId)) {
+    throw new ApiError(400, "Invalid videoId");
+  }
+  // const video = await Video.findById(videoId).populate("owner", "username avatar");
+  // if (!video) {
+  //   throw new ApiError(404, "Video not found");
+  // }
+  const comment= await Comment.aggregate([
+    {
+      $match: { _id: new mongoose.Types.ObjectId(commentId) }
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "comment",
+        as: "likes"
+      }
+    },
+    {
+      $addFields: {
+        likeCount: { $size: "$likes" }
+      }
+    },
+    {
+      $project: {
+        likeCount: 1,
+        createdAt:1,
+        updatedAt:1,
+      }
+    }
+  ]);
+  return res
+    .status(200)
+    .json(new ApiResponse(200,comment, "comment fetched successfully"));
+});
+
 export {
     getVideoComments, 
     addComment, 
     updateComment,
-    deleteComment
+    deleteComment,
+    getCommentById 
 }

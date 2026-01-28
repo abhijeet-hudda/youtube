@@ -4,7 +4,7 @@ async function addComment(videoId, content){
     // console.log("videoId",videoId);
     // console.log("content",content);
     const response = await api.post(`/comments/add-comment/${videoId}`,{content});
-    console.log("response",response)
+    //console.log("response",response)
     return response.data;
 }
 async function getVideoComments({videoId},{page=1,limit=10}){
@@ -30,10 +30,15 @@ async function deleteComment(commentId){
     const response = await api.delete(`/comments/${commentId}`);
     return response.data;
 }
+async function getCommentById(commentId){
+    const response = await api.get(`/comments/comment-detail/${commentId}`);
+    return response.data;
+}
 
 export default {
     addComment,
     updateComment,
     getVideoComments,
-    deleteComment
+    deleteComment,
+    getCommentById
 }
