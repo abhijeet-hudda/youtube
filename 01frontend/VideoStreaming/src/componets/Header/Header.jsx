@@ -18,8 +18,14 @@ function Header({ toggleSidebar }) {
     setShowDropdown(false);
     navigate("/login");
   };
-
-  //console.log(user)
+  const [searchText ,setSearchText] = useState("")
+  const handleSearch = ()=>{
+    if (searchText.trim()) {
+      // const query = searchText.replace(/_/g, " ").trim();
+      navigate(`/search?query=${searchText}`); 
+    }
+    setSearchText("");
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 h-14 bg-white border-b z-50 px-4">
@@ -104,9 +110,11 @@ function Header({ toggleSidebar }) {
             <input
               type="text"
               placeholder="Search"
+              value={searchText}
+              onChange={(e)=>(setSearchText(e.target.value))}
               className="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:border-blue-500 focus:outline-none shadow-inner"
             />
-            <button className="px-5 border border-l-0 border-gray-300 rounded-r-full bg-gray-100 hover:bg-gray-200">
+            <button onClick={handleSearch} className="px-5 border border-l-0 border-gray-300 rounded-r-full bg-gray-100 hover:bg-gray-200">
               🔍
             </button>
           </div>

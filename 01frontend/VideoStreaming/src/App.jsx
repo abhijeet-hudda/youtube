@@ -19,6 +19,7 @@ import PlaylistPage from "./pages/Playlists.page"
 import { useDispatch } from "react-redux"
 import { fetchCurrentUser } from "./store/features/authFeatures/auth.Thunks"
 import { useEffect } from "react"
+import SearchPage from "./pages/Search.page"
 
 const router = createBrowserRouter([
   {
@@ -106,6 +107,14 @@ const router = createBrowserRouter([
         element:(
           <AuthLayout authentication={true}>
               <PlaylistPage/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/search",
+        element:(
+          <AuthLayout authentication={true}>
+            <SearchPage/>
           </AuthLayout>
         )
       }

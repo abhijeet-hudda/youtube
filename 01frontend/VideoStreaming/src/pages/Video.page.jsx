@@ -190,7 +190,7 @@ function Video() {
                         </button>
                     )*/}
           </div>
-          {/*comment ke liye add karna h */}
+          {/*comment ke liye  */}
           <div className="w-full">
             <CommentSection 
             videoId={videoId}

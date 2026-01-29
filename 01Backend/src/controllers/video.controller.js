@@ -21,10 +21,26 @@ const getAllVideos = asyncHandler(async (req, res) => {
     */
 
   const match = {};
+  // if (query) {
+  //   match.$or = [
+  //     { title: { $regex: query, $options: "i" } },
+  //     { description: { $regex: query, $options: "i" } },
+  //   ];
+  // }
   if (query) {
+    // A. Split query into words (e.g. "React native" -> ["React", "native"])
+    // B. Escape special regex chars so "C++" doesn't crash the server
+    const words = query.trim().split(/\s+/).map(word => 
+      word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    );
+
+    // C. Join with OR operator (e.g. "React|native")
+    const regexPattern = words.join("|");
+    const searchRegex = new RegExp(regexPattern, "i"); // "i" for case-insensitive
+
     match.$or = [
-      { title: { $regex: query, $options: "i" } },
-      { description: { $regex: query, $options: "i" } },
+      { title: searchRegex },
+      { description: searchRegex },
     ];
   }
   if (userId) {
