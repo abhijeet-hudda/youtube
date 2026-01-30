@@ -53,7 +53,7 @@ function Sidebar({ isOpen }) {
           <span className={`text-sm ${!isOpen && "text-[10px]"}`}>Shorts</span>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           to="/subscriptions"
           className={({ isActive }) =>
             `${isOpen ? baseLinkClass : compactLinkClass} ${isActive ? "bg-gray-100 font-bold" : ""}`
@@ -61,7 +61,7 @@ function Sidebar({ isOpen }) {
         >
           <span className="text-xl">📺</span>
           <span className={`text-sm ${!isOpen && "text-[10px]"}`}>Subs</span>
-        </NavLink>
+        </NavLink> */}
 
         <div className="flex flex-col">
           <div

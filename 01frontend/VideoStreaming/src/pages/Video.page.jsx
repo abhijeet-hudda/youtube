@@ -1,6 +1,6 @@
 
-import { useVideoDetail } from "../queries/video.queries";
-import { useParams} from "react-router-dom";
+import { useVideoDetail,useVideos } from "../queries/video.queries";
+import { Link, useParams} from "react-router-dom";
 import Container from "../componets/container/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { userChannel } from "../store/features/channelFeatures/channel.Thunks";
@@ -45,8 +45,23 @@ function Video() {
   const handleDelete =async() => {
     deleteVideo(videoId);
   }
+  //console.log(data)
   const [isPlayListOpen,setIsPlayListOpen] = useState(false)
-  
+  const searchTitle = data?.title
+  const searchDescription  = data?.description;
+  const {data:relatedList1 } = useVideos()
+  const {data:relatedList2 } = useVideos()
+  const combinedRelatedVideos = [
+    ...(relatedList1?.data?.docs || []),
+    ...(relatedList2?.data?.docs || [])
+  ].filter((video, index, self) => 
+    // Filter logic: 
+    // 1. Remove duplicates (check if _id is unique)
+    // 2. Remove the current video being watched
+    index === self.findIndex((t) => t._id === video._id) && video._id !== videoId
+  );
+  //console.log("related",relatedList1)
+  //console.log(combinedRelatedVideos)
   // useEffect(()=>{
   //   dispatch(fetchCurrentUser());
   // },[dispatch])
@@ -202,6 +217,28 @@ function Video() {
           <h3 className="font-bold text-lg mb-4">Related Videos</h3>
           <div className="flex flex-col gap-3">
             {/*yha related video ki array aayegi */}
+            {combinedRelatedVideos.map((video) => (
+                <Link to={`/watch/${video?._id}`} key={video?._id}><div  className="flex gap-2 cursor-pointer group">
+                   <div className="w-40 h-24 bg-gray-200 rounded-lg overflow-hidden shrink-0 relative">
+                      {/* Placeholder Image */}
+                      <img 
+                        src={video?.thumbnail} 
+                        alt="Thumbnail" 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                      <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-0.5 text-xs font-medium text-white">
+                        {formatDuration(video.duration)}
+                      </span>
+                   </div>
+                   <div className="flex flex-col gap-1">
+                      <h4 className="font-semibold text-sm line-clamp-2 leading-tight">{video.title}</h4>
+                      <p className="text-xs text-gray-500">{video.owner.username}</p>
+                      <p className="text-xs text-gray-500">{formatViews(video.views)} views • {timeAgo(video.createdAt)}</p>
+                   </div>
+                </div></Link>   
+             ))}
+            
+
           </div>
         </div>
       </div>
@@ -239,6 +276,12 @@ export const timeAgo = (dateString) => {
 
   return "just now";
 };
+function formatDuration(seconds) {
+    if(!seconds) return "00:00";
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+}
 
 
 // ${commentText?.trim() 

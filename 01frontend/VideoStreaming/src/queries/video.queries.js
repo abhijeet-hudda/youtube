@@ -11,6 +11,7 @@ export const videoKeys = {
 
 // 1. Fetching Hook
 export const useVideos = (filters) => {
+    //console.log(filters)
     return useQuery({
         queryKey: videoKeys.list(filters),
         queryFn: () => videoApi.getAllVideos(filters),
