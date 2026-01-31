@@ -16,7 +16,7 @@ import UpdateAccount from "./pages/Update/UpdateAccount.page"
 import UpdateAvatar from "./pages/Update/UpdateAvatar.page"
 import UpdateCoverImage from "./pages/Update/UpdateCoverImage.page"
 import PlaylistPage from "./pages/Playlists.page"
-import { useDispatch } from "react-redux"
+import { useDispatch,useSelector } from "react-redux"
 import { fetchCurrentUser } from "./store/features/authFeatures/auth.Thunks"
 import { useEffect } from "react"
 import SearchPage from "./pages/Search.page"
@@ -163,10 +163,12 @@ function AppContent() {
     dispatch(fetchCurrentUser());
   }, [dispatch]);
 
+
   return <RouterProvider router={router} />;
 }
 
 function App() {
+
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>

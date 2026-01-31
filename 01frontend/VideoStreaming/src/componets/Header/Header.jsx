@@ -26,7 +26,6 @@ function Header({ toggleSidebar }) {
     }
     setSearchText("");
   }
-
   return (
     <header className="fixed top-0 left-0 right-0 h-14 bg-white border-b z-50 px-4">
       <div className="flex items-center justify-between h-full">
